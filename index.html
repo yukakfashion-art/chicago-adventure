@@ -1,0 +1,1391 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+<title>✈️ シカゴ大ぼうけん！</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;700;900&display=swap');
+
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+:root { --blue:#5b9bd5; --light-blue:#a8d8f0; --pale:#e8f6ff; }
+
+body {
+  font-family: 'Noto Sans JP', 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Yu Gothic', sans-serif;
+  background: linear-gradient(170deg,#b8e4ff 0%,#daf0ff 35%,#fff0fa 70%,#ffe8f5 100%);
+  min-height: 100vh; overflow-x: hidden;
+}
+
+/* BALLOONS */
+.balloon-container { position:fixed; inset:0; pointer-events:none; z-index:0; overflow:hidden; }
+.balloon { position:absolute; bottom:-120px; font-size:38px; animation:balloonFloat linear infinite; opacity:0.85; filter:drop-shadow(2px 4px 6px rgba(0,0,0,0.15)); }
+.balloon::after { content:''; display:block; width:2px; height:40px; background:rgba(150,180,200,0.5); margin:0 auto; border-radius:2px; }
+.b1{left:5%;animation-duration:12s;animation-delay:0s;font-size:32px}
+.b2{left:15%;animation-duration:15s;animation-delay:3s;font-size:42px}
+.b3{left:28%;animation-duration:11s;animation-delay:6s;font-size:28px}
+.b4{left:42%;animation-duration:14s;animation-delay:1s;font-size:40px}
+.b5{left:58%;animation-duration:13s;animation-delay:8s;font-size:34px}
+.b6{left:70%;animation-duration:16s;animation-delay:4s;font-size:44px}
+.b7{left:82%;animation-duration:10s;animation-delay:2s;font-size:30px}
+.b8{left:92%;animation-duration:13s;animation-delay:9s;font-size:36px}
+@keyframes balloonFloat {
+  0%{transform:translateY(0) rotate(-4deg);opacity:0.8}
+  25%{transform:translateY(-25vh) rotate(3deg);opacity:0.85}
+  50%{transform:translateY(-55vh) rotate(-3deg);opacity:0.8}
+  75%{transform:translateY(-80vh) rotate(4deg);opacity:0.6}
+  100%{transform:translateY(-115vh) rotate(-2deg);opacity:0}
+}
+.sparkle-bg{position:fixed;inset:0;pointer-events:none;z-index:0}
+.sp{position:absolute;animation:twinkle ease-in-out infinite;font-size:14px}
+@keyframes twinkle{0%,100%{opacity:0.2;transform:scale(0.7) rotate(0deg)}50%{opacity:1;transform:scale(1.3) rotate(30deg)}}
+
+/* LAYOUT */
+.container{position:relative;z-index:1;max-width:820px;margin:0 auto;padding:16px 16px 40px}
+
+/* HEADER */
+.header{text-align:center;padding:20px 0 8px}
+.main-title{font-size:clamp(1.6em,5vw,2.6em);font-weight:900;color:var(--blue);text-shadow:3px 3px 0 #fff,6px 6px 0 #c5e0ff;letter-spacing:3px;line-height:1.2}
+.main-title span{color:#e879a8;text-shadow:3px 3px 0 #fff,6px 6px 0 #ffd6e8}
+.subtitle{color:var(--light-blue);font-size:0.9em;margin-top:6px;font-weight:700}
+.char-deco{display:flex;justify-content:center;gap:20px;margin:8px 0 0;font-size:2.2em}
+
+/* COUNTDOWN */
+.countdown-card{background:white;border-radius:28px;padding:22px 20px 18px;margin:16px 0;text-align:center;box-shadow:0 6px 30px rgba(100,180,255,0.25);border:3px solid #d0ecff;position:relative;overflow:hidden}
+.countdown-card::before{content:'🌸';position:absolute;font-size:26px;top:12px;left:18px;animation:floatDeco 3s ease-in-out infinite}
+.countdown-card::after{content:'⭐';position:absolute;font-size:26px;top:12px;right:18px;animation:floatDeco 3s ease-in-out infinite 0.7s}
+@keyframes floatDeco{0%,100%{transform:translateY(0) rotate(-5deg)}50%{transform:translateY(-8px) rotate(5deg)}}
+.countdown-date{font-size:0.85em;color:#aac8e0;font-weight:700;margin-bottom:4px}
+.days-big{font-size:clamp(3.5em,12vw,6em);font-weight:900;color:var(--blue);line-height:0.95;text-shadow:4px 4px 0 #cce8ff}
+.days-unit{font-size:0.35em;color:var(--light-blue);vertical-align:middle}
+.days-sublabel{font-size:1em;font-weight:700;color:#e879a8;margin-top:4px;letter-spacing:2px}
+.flight-chips{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:14px}
+.chip{background:var(--pale);border:2px solid #c8e4f8;border-radius:20px;padding:5px 14px;font-size:0.78em;color:var(--blue);font-weight:700}
+
+/* FLIGHT PATH */
+.chicago-time-card{background:linear-gradient(135deg,#1a1a4e 0%,#2d2d8f 60%,#1a3a6e 100%);border-radius:24px;padding:16px 20px;margin:16px 0;text-align:center;box-shadow:0 6px 24px rgba(40,40,120,0.35);color:white;position:relative;overflow:hidden}
+.chicago-time-card::before{content:'🌃';position:absolute;font-size:22px;top:10px;left:14px;opacity:0.6}
+.chicago-time-card::after{content:'⭐';position:absolute;font-size:18px;top:12px;right:14px;opacity:0.5;animation:floatDeco 3s ease-in-out infinite}
+.chicago-time-label{font-size:0.72em;font-weight:700;color:#a0c4ff;letter-spacing:1px;margin-bottom:4px}
+.chicago-time-main{font-size:clamp(1.8em,7vw,2.8em);font-weight:900;letter-spacing:2px;text-shadow:0 2px 12px rgba(100,160,255,0.5)}
+.chicago-time-date{font-size:0.78em;color:#c0d8ff;margin-top:2px}
+.chicago-time-diff{font-size:0.7em;color:#80aaee;margin-top:4px}
+.flight-card{background:white;border-radius:28px;padding:20px;margin:16px 0;box-shadow:0 6px 30px rgba(100,180,255,0.2);border:3px solid #d0ecff}
+.card-title{text-align:center;font-weight:900;color:var(--blue);font-size:1em;margin-bottom:14px;letter-spacing:1px}
+.sky-container{position:relative;height:140px;background:linear-gradient(180deg,#ddf0ff 0%,#f0faff 60%,#e8f5ff 100%);border-radius:20px;overflow:hidden}
+.sky-cloud{position:absolute;font-size:30px;opacity:0.65}
+.sc1{top:15px;left:20%;animation:cloudDrift 9s ease-in-out infinite}
+.sc2{top:30px;left:50%;animation:cloudDrift 12s ease-in-out infinite 3s;font-size:20px}
+.sc3{top:8px;right:15%;animation:cloudDrift 10s ease-in-out infinite 1s;font-size:24px}
+@keyframes cloudDrift{0%,100%{transform:translateX(0)}50%{transform:translateX(12px)}}
+.flight-path-svg{position:absolute;inset:0;width:100%;height:100%}
+.city-pin{position:absolute;bottom:10px;display:flex;flex-direction:column;align-items:center;gap:2px}
+.city-pin .pin-icon{font-size:24px}
+.city-pin .pin-name{font-size:0.7em;font-weight:900;color:var(--blue);background:rgba(255,255,255,0.85);padding:1px 6px;border-radius:8px;white-space:nowrap}
+.japan-pin{left:16px}
+.chicago-pin{right:16px}
+#planeEmoji{position:absolute;font-size:30px;transform:translate(-50%,-50%);filter:drop-shadow(2px 3px 5px rgba(0,0,0,0.2));transition:left 1.2s ease,top 1.2s ease;z-index:2}
+.progress-distance{text-align:center;margin-top:10px;font-size:0.82em;color:var(--light-blue);font-weight:700}
+
+/* OVERALL */
+.overall-card{border-radius:28px;padding:22px 20px;margin:16px 0;color:white;text-align:center;background:linear-gradient(135deg,#74b9ff 0%,#a29bfe 50%,#fd79a8 100%);box-shadow:0 8px 30px rgba(116,185,255,0.4);position:relative;overflow:hidden}
+.overall-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at 30% 50%,rgba(255,255,255,0.15) 0%,transparent 60%)}
+.overall-label{font-size:0.95em;font-weight:700;opacity:0.9;letter-spacing:2px;margin-bottom:6px}
+.overall-pct{font-size:clamp(3em,10vw,5em);font-weight:900;text-shadow:3px 3px 0 rgba(0,0,0,0.15);line-height:1}
+.overall-sub{font-size:0.85em;opacity:0.85;margin-top:6px;margin-bottom:14px}
+.big-bar-outer{background:rgba(255,255,255,0.3);border-radius:50px;height:22px;overflow:hidden;border:2px solid rgba(255,255,255,0.4)}
+.big-bar-inner{height:100%;border-radius:50px;background:linear-gradient(90deg,#fff 0%,#fff9e0 100%);transition:width 1s ease;position:relative;overflow:hidden;min-width:4px}
+.big-bar-inner::after{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,0.5),transparent);animation:shimmer 2.5s infinite}
+@keyframes shimmer{100%{left:100%}}
+.contrib-row{display:flex;justify-content:center;gap:10px;margin-top:14px;flex-wrap:wrap}
+.contrib-chip{background:rgba(255,255,255,0.25);border-radius:20px;padding:5px 10px;font-size:0.72em;font-weight:700;backdrop-filter:blur(4px);border:1px solid rgba(255,255,255,0.3)}
+
+/* SECTION CARDS */
+.section-card{background:white;border-radius:28px;margin:16px 0;box-shadow:0 6px 24px rgba(100,180,255,0.15);border:3px solid #d0ecff;overflow:hidden}
+.section-head{padding:18px 20px 14px;cursor:pointer;display:flex;align-items:center;gap:12px;user-select:none;transition:background 0.2s}
+.section-head:hover{background:#f8fcff}
+.head-prep{background:linear-gradient(135deg,#f0fff8 0%,#e8faff 100%)}
+.head-english{background:linear-gradient(135deg,#fff0fa 0%,#f8e8ff 100%)}
+.head-culture{background:linear-gradient(135deg,#fffbf0 0%,#fff0e8 100%)}
+.sec-icon{font-size:30px}
+.sec-info{flex:1}
+.sec-title{font-size:1.05em;font-weight:900;color:var(--blue)}
+.sec-done{font-size:0.8em;color:var(--light-blue);font-weight:700;margin-top:2px}
+.sec-badge{font-size:0.8em;font-weight:700;padding:4px 12px;border-radius:20px;background:var(--pale);color:var(--blue);border:2px solid #c8e4f8}
+.sec-arrow{font-size:1.2em;color:var(--light-blue);transition:transform 0.3s}
+.section-card.open .sec-arrow{transform:rotate(180deg)}
+.mini-bar{height:6px;background:#e8f4ff;margin:0 20px 4px;border-radius:50px;overflow:hidden}
+.mini-bar-fill{height:100%;border-radius:50px;transition:width 0.5s ease}
+.fill-prep{background:linear-gradient(90deg,#84fab0,#8fd3f4)}
+.fill-english{background:linear-gradient(90deg,#fbc2eb,#a18cd1)}
+.fill-culture{background:linear-gradient(90deg,#f9d423,#74b9ff)}
+.section-body{display:none;padding:4px 16px 16px}
+.section-card.open .section-body{display:block}
+
+/* DAILY CARDS */
+.daily-card{border-radius:20px;padding:18px;margin-bottom:14px;position:relative;overflow:hidden}
+.lesson-card{background:linear-gradient(135deg,#fff5fa 0%,#f8e8ff 100%);border:3px solid #f0b8e0}
+.watch-card{background:linear-gradient(135deg,#f0f8ff 0%,#e8f0ff 100%);border:3px solid #c8d8f8}
+.culture-card{background:linear-gradient(135deg,#fffdf0 0%,#fff8e8 100%);border:3px solid #f8d88a}
+
+.daily-card-header{display:flex;align-items:center;gap:8px;margin-bottom:12px;flex-wrap:wrap}
+.daily-badge{color:white;font-size:0.7em;font-weight:900;padding:3px 10px;border-radius:20px;white-space:nowrap}
+.badge-lesson{background:linear-gradient(90deg,#e879a8,#a29bfe)}
+.badge-watch{background:linear-gradient(90deg,#74b9ff,#a29bfe)}
+.badge-culture{background:linear-gradient(90deg,#f9d423,#74b9ff)}
+.daily-date{font-size:0.75em;color:#b0a0c0;font-weight:700}
+.video-tag{font-size:0.68em;background:#f0e8ff;color:#9070c0;padding:2px 8px;border-radius:10px;font-weight:700}
+.watch-tag{font-size:0.68em;background:#e8f4ff;color:#6090d0;padding:2px 8px;border-radius:10px;font-weight:700}
+
+.video-title{font-size:0.9em;font-weight:900;color:#5a4a7a;margin-bottom:10px;line-height:1.4}
+.watch-title{font-size:0.9em;font-weight:900;color:#4a5a7a;margin-bottom:10px;line-height:1.4}
+
+/* VIDEO EMBED */
+.video-wrap{position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:14px;margin:10px 0}
+.video-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:none;border-radius:14px}
+
+/* QUIZ */
+.quiz-intro{font-size:0.8em;font-weight:700;color:#a090c0;text-align:center;margin:14px 0 10px;padding:8px;background:rgba(255,255,255,0.6);border-radius:10px}
+.quiz-block{margin:12px 0}
+.quiz-num{font-size:0.68em;font-weight:900;color:#c090d0;margin-bottom:6px;letter-spacing:1px}
+.quiz-q{font-size:0.88em;font-weight:700;color:#5a4a7a;margin-bottom:10px;line-height:1.5}
+.quiz-choices{display:flex;flex-direction:column;gap:10px}
+.quiz-choice{padding:14px 18px;border-radius:16px;border:2.5px solid #d8c8f0;background:white;font-size:0.92em;font-weight:700;color:#5a4a7a;cursor:pointer;transition:all 0.2s;text-align:left;font-family:'Noto Sans JP',sans-serif;position:relative}
+.quiz-choice:hover:not(.correct):not(.wrong):not(.selected):not([disabled]){background:#f5efff;border-color:#c0a0e8;transform:scale(1.02)}
+.quiz-choice.selected{background:linear-gradient(135deg,#f0e0ff,#ddd0ff);border-color:#b090e0;color:#4a3a7a;transform:scale(1.02)}
+.quiz-choice.correct{background:linear-gradient(135deg,#84fab0,#08aeea);color:white;border-color:transparent;cursor:default;animation:correctPop 0.5s cubic-bezier(0.36,0.07,0.19,0.97)}
+.quiz-choice.wrong{background:#ff6b6b;color:white;border-color:#ff4444;animation:wrongShake 0.5s cubic-bezier(0.36,0.07,0.19,0.97)}
+.quiz-choice.locked{cursor:default;opacity:0.5}
+.quiz-choice[disabled]{cursor:default}
+.quiz-confirm-btn{width:100%;margin-top:12px;padding:13px;border-radius:16px;border:none;background:linear-gradient(90deg,#c0a0f0,#90b0f8);color:white;font-size:1em;font-weight:900;cursor:pointer;font-family:inherit;opacity:0.4;pointer-events:none;transition:all 0.2s}
+.quiz-confirm-btn.active{opacity:1;pointer-events:auto;transform:scale(1.02);box-shadow:0 4px 14px rgba(160,130,240,0.4)}
+.quiz-confirm-btn.active:hover{transform:scale(1.04)}
+@keyframes correctPop{0%{transform:scale(1)}30%{transform:scale(1.08)}60%{transform:scale(0.96)}100%{transform:scale(1)}}
+@keyframes wrongShake{0%,100%{transform:translateX(0)}15%{transform:translateX(-12px)}30%{transform:translateX(12px)}45%{transform:translateX(-10px)}60%{transform:translateX(10px)}75%{transform:translateX(-6px)}90%{transform:translateX(6px)}}
+.quiz-feedback{font-size:1em;padding:12px 16px;border-radius:14px;margin-top:10px;font-weight:900;display:none;text-align:center;animation:feedbackIn 0.3s ease}
+.quiz-feedback.show{display:block}
+.quiz-feedback.ok{background:linear-gradient(135deg,#d4ffea,#b8f5d8);color:#1a7a4a;border:2px solid #84fab0;font-size:1.05em}
+.quiz-feedback.ng{background:linear-gradient(135deg,#ffe0e0,#ffc8c8);color:#c02020;border:2px solid #ffaaaa;font-size:1.05em}
+@keyframes feedbackIn{0%{opacity:0;transform:translateY(-8px) scale(0.95)}100%{opacity:1;transform:translateY(0) scale(1)}}
+.quiz-divider{border:none;border-top:1px dashed #e0d0f0;margin:14px 0}
+
+/* DONE BUTTON */
+.done-btn{display:block;width:100%;padding:13px;border-radius:14px;border:none;font-size:1em;font-weight:900;cursor:pointer;transition:all 0.2s;font-family:'Noto Sans JP',sans-serif;margin-top:14px}
+.done-btn.lesson-btn{background:linear-gradient(90deg,#fbc2eb,#a6c1ee);color:white;box-shadow:0 4px 14px rgba(200,160,255,0.3)}
+.done-btn.watch-btn{background:linear-gradient(90deg,#74b9ff,#a29bfe);color:white;box-shadow:0 4px 14px rgba(100,160,255,0.3)}
+.done-btn.done-state{background:linear-gradient(90deg,#84fab0,#08aeea)!important;cursor:default}
+.done-btn.locked{background:#e0e0e0;color:#a0a0a0;cursor:not-allowed;box-shadow:none}
+.done-msg{font-size:0.72em;color:#c0a8d8;text-align:center;margin-top:8px;font-weight:700}
+
+/* PAST ITEMS */
+.past-toggle{font-size:0.78em;color:var(--light-blue);font-weight:700;text-align:center;margin:8px 0;cursor:pointer;padding:6px;user-select:none}
+.past-toggle:hover{color:var(--blue)}
+.past-list{display:none}
+.past-list.open{display:block}
+
+/* PREP TASKS */
+.prep-hint{font-size:0.78em;color:#b0d0e0;text-align:center;margin-bottom:8px;font-weight:700}
+.task-item{display:flex;align-items:center;gap:12px;padding:11px 6px;border-radius:14px;cursor:pointer;transition:background 0.15s,transform 0.15s;border-bottom:1px dashed #e8f4ff;user-select:none}
+.task-item:last-child{border-bottom:none}
+.task-item:hover{background:#f5fbff;transform:translateX(2px)}
+.task-item.done{opacity:0.55}
+.cb{width:30px;height:30px;border-radius:50%;border:3px solid #b8d8f8;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:16px;transition:all 0.3s cubic-bezier(0.68,-0.55,0.265,1.55);background:white}
+.task-item.done .cb{background:linear-gradient(135deg,#84fab0,#08aeea);border-color:transparent}
+.task-emoji{font-size:20px;flex-shrink:0}
+.task-text{flex:1;font-size:0.92em;color:#4a7a9b;line-height:1.4}
+.task-item.done .task-text{text-decoration:line-through;color:#b0c8d8}
+
+/* CULTURE FACTS */
+.fact-item{background:linear-gradient(135deg,#f8fbff 0%,#f0f8ff 100%);border-radius:18px;padding:14px;margin-bottom:10px;display:flex;gap:12px;align-items:flex-start;cursor:pointer;transition:all 0.25s;border:2px solid #deeeff}
+.fact-item:hover{transform:translateY(-2px);box-shadow:0 4px 16px rgba(100,180,255,0.2)}
+.fact-item.learned{border-color:#84fab0;background:linear-gradient(135deg,#f0fff6 0%,#e6fff2 100%)}
+.fact-emoji{font-size:26px;flex-shrink:0;margin-top:2px}
+.fact-body{flex:1}
+.fact-title{font-weight:900;color:var(--blue);font-size:0.92em;margin-bottom:4px}
+.fact-text{font-size:0.82em;color:#70a0b8;line-height:1.6;margin-bottom:4px}
+.fact-badge{display:inline-block;font-size:0.72em;background:linear-gradient(90deg,#84fab0,#08aeea);color:white;padding:2px 10px;border-radius:10px;font-weight:700;opacity:0;transition:opacity 0.3s}
+.fact-item.learned .fact-badge{opacity:1}
+.fact-tap-hint{font-size:0.72em;color:#b0d0e0;text-align:center;margin-bottom:8px;font-weight:700}
+
+/* BURST */
+.burst{position:fixed;pointer-events:none;z-index:9999;font-size:22px;animation:burstAnim 0.8s ease-out forwards}
+@keyframes burstAnim{0%{transform:translate(0,0) scale(1);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(0.2);opacity:0}}
+
+/* FOOTER */
+.footer{text-align:center;padding:20px 0 10px;color:#b0d0e8;font-size:0.78em;font-weight:700}
+.ai-box{background:linear-gradient(135deg,#e0f0ff 0%,#f5e6ff 100%);border-radius:24px;padding:20px 18px 18px;margin:18px 0;box-shadow:0 4px 18px rgba(160,180,255,0.18);border:2px solid #c8d8f8}
+.ai-box-title{font-size:1em;font-weight:900;color:#6a7fc8;margin-bottom:12px;text-align:center}
+.ai-input-row{display:flex;gap:8px}
+.ai-input{flex:1;border:2px solid #c0d4f8;border-radius:14px;padding:10px 14px;font-size:0.9em;font-family:inherit;color:#4a5a7a;background:#fff;outline:none}
+.ai-input:focus{border-color:#74b9ff}
+.ai-send-btn{background:linear-gradient(90deg,#74b9ff,#a29bfe);color:#fff;border:none;border-radius:14px;padding:10px 18px;font-size:0.9em;font-weight:900;cursor:pointer;white-space:nowrap;font-family:inherit}
+.ai-hint{font-size:0.75em;color:#a0b0cc;margin-top:8px;text-align:center}
+
+/* FOUND BADGE */
+.found-badge{font-size:0.65em;background:#fff3e0;color:#e08040;padding:2px 7px;border-radius:8px;font-weight:700;vertical-align:middle;margin-left:4px}
+</style>
+</head>
+<body>
+
+<div class="balloon-container">
+  <div class="balloon b1">🎈</div><div class="balloon b2">🩵</div>
+  <div class="balloon b3">🎀</div><div class="balloon b4">💜</div>
+  <div class="balloon b5">🎈</div><div class="balloon b6">🩷</div>
+  <div class="balloon b7">⭐</div><div class="balloon b8">🎀</div>
+</div>
+<div class="sparkle-bg" id="sparkleBg"></div>
+
+<div class="container">
+  <div class="header">
+    <div class="main-title">✈️ ちはなちゃんの<span>シカゴ大ぼうけん</span>！</div>
+    <div class="subtitle">JL010 はねだ → シカゴ ・ 7月20日 しゅっぱつ</div>
+    <div class="char-deco">🐾🖤✨🐶💙</div>
+  </div>
+
+  <!-- カウントダウン -->
+  <div class="countdown-card">
+    <div class="countdown-date">📅 2026年7月20日（月）13:00 しゅっぱつ</div>
+    <div class="days-big" id="daysNum">－<span class="days-unit">にち</span></div>
+    <div class="days-sublabel" id="daysLabel">大ぼうけんまで…</div>
+  </div>
+
+  <!-- シカゴの現地時間 -->
+  <div class="chicago-time-card">
+    <div class="chicago-time-label">🇺🇸 シカゴの今の時間</div>
+    <div class="chicago-time-main" id="chicago-time">--:--</div>
+    <div class="chicago-time-date" id="chicago-date">---</div>
+    <div class="chicago-time-diff" id="chicago-diff">日本との時差：14時間おくれ</div>
+  </div>
+
+  <!-- フライトマップ -->
+  <div class="flight-card">
+    <div class="card-title">🗺️ 大ぼうけんルート</div>
+    <div class="sky-container">
+      <div class="sky-cloud sc1">☁️</div>
+      <div class="sky-cloud sc2">☁️</div>
+      <div class="sky-cloud sc3">☁️</div>
+      <svg class="flight-path-svg" viewBox="0 0 100 100" preserveAspectRatio="none">
+        <path id="flightArc" d="M 9,78 Q 50,12 91,78" fill="none" stroke="#a8d8f0" stroke-width="1.5" stroke-dasharray="3,3" opacity="0.8"/>
+        <path id="flightDone" d="M 9,78 Q 50,12 91,78" fill="none" stroke="url(#pathGrad)" stroke-width="2.5" stroke-dasharray="0,1000" stroke-linecap="round"/>
+        <defs>
+          <linearGradient id="pathGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stop-color="#74b9ff"/>
+            <stop offset="100%" stop-color="#fd79a8"/>
+          </linearGradient>
+        </defs>
+      </svg>
+      <div id="planeEmoji">✈️</div>
+      <div class="city-pin japan-pin"><div class="pin-icon">🗾</div><div class="pin-name">日本</div></div>
+      <div class="city-pin chicago-pin"><div class="pin-icon">🏙️</div><div class="pin-name">シカゴ</div></div>
+    </div>
+    <div class="progress-distance" id="distanceLabel">じゅんびをするほどひこうきがすすむよ！</div>
+  </div>
+
+  <!-- 大冒険への近さ -->
+  <div class="overall-card">
+    <div class="overall-label">🌟 大ぼうけんへの近さ 🌟</div>
+    <div class="overall-pct"><span id="overallPct">0</span>%</div>
+    <div class="overall-sub" id="overallMsg">さあ、大ぼうけんのじゅんびをはじめよう！</div>
+    <div class="big-bar-outer"><div class="big-bar-inner" id="overallBar" style="width:0%"></div></div>
+    <div class="contrib-row">
+      <div class="contrib-chip">⏰ 日にち <span id="c1">0</span>%</div>
+      <div class="contrib-chip">🎒 じゅんび <span id="c2">0</span>%</div>
+      <div class="contrib-chip">🎬 どうが <span id="c3">0</span>%</div>
+      <div class="contrib-chip">🇺🇸 ぶんか <span id="c4">0</span>%</div>
+    </div>
+  </div>
+
+  <!-- じゅんびチェックリスト -->
+  <div class="section-card open" id="sec-prep">
+    <div class="section-head head-prep" onclick="toggleSection('sec-prep')">
+      <div class="sec-icon">🎒</div>
+      <div class="sec-info">
+        <div class="sec-title">しゅっぱつのじゅんびチェックリスト</div>
+        <div class="sec-done" id="prep-done-label">0 / 10 クリア</div>
+      </div>
+      <div class="sec-badge" id="prep-badge">0%</div>
+      <div class="sec-arrow">▼</div>
+    </div>
+    <div class="mini-bar"><div class="mini-bar-fill fill-prep" id="prep-bar" style="width:0%"></div></div>
+    <div class="section-body" id="prep-body"></div>
+  </div>
+
+  <!-- えいごチャレンジ -->
+  <div class="section-card open" id="sec-english">
+    <div class="section-head head-english" onclick="toggleSection('sec-english')">
+      <div class="sec-icon">🎤</div>
+      <div class="sec-info">
+        <div class="sec-title">えいごチャレンジ！</div>
+        <div class="sec-done" id="english-done-label">0 / 0 クリア</div>
+      </div>
+      <div class="sec-badge" id="english-badge">0%</div>
+      <div class="sec-arrow">▼</div>
+    </div>
+    <div class="mini-bar"><div class="mini-bar-fill fill-english" id="english-bar" style="width:0%"></div></div>
+    <div class="section-body" id="english-body"></div>
+  </div>
+
+  <!-- アメリカを知ろう -->
+  <div class="section-card open" id="sec-culture">
+    <div class="section-head head-culture" onclick="toggleSection('sec-culture')">
+      <div class="sec-icon">🇺🇸</div>
+      <div class="sec-info">
+        <div class="sec-title">アメリカ・シカゴを知ろう！</div>
+        <div class="sec-done" id="culture-done-label">0 / 16 学んだ</div>
+      </div>
+      <div class="sec-badge" id="culture-badge">0%</div>
+      <div class="sec-arrow">▼</div>
+    </div>
+    <div class="mini-bar"><div class="mini-bar-fill fill-culture" id="culture-bar" style="width:0%"></div></div>
+    <div class="section-body" id="culture-body"></div>
+  </div>
+
+  <!-- AI質問ボックス -->
+  <div class="ai-box">
+    <div class="ai-box-title">🤖 なんでも聞いてみよう！</div>
+    <div class="ai-input-row">
+      <input class="ai-input" id="ai-input" type="text" placeholder="シカゴのことや英語のこと、なんでも！">
+      <button class="ai-send-btn" id="ai-send-btn">きく！</button>
+    </div>
+    <div class="ai-hint">ボタンをおすとClaudeが答えてくれるよ 💙</div>
+  </div>
+
+  <div class="footer">
+    💙 がんばれ！大ぼうけん、まってるよ！ 🐾<br>
+    ポチャッコ ＆ クロミといっしょに、シカゴへ GO！
+  </div>
+</div>
+
+<script>
+// ===== DATA =====
+const DEPARTURE = new Date('2026-07-20T13:00:00+09:00');
+const APP_START  = new Date('2026-06-05T00:00:00+09:00');
+
+const PREP_TASKS = [
+  {id:'p1', emoji:'🛂', text:'パスポートのゆうこうきげんをかくにんした'},
+  {id:'p2', emoji:'🧳', text:'スーツケースを出して、大きさをかくにんした'},
+  {id:'p3', emoji:'👗', text:'1かげつぶんのきがえをそろえた'},
+  {id:'p4', emoji:'💊', text:'くすり・きゅうきゅうセット・虫よけをじゅんびした'},
+  {id:'p5', emoji:'📱', text:'おばさんの電話ばんごうをあんき（またはメモ）した'},
+  {id:'p6', emoji:'🆘', text:'こまったときに電話できるれんしゅうをした'},
+  {id:'p7', emoji:'🎒', text:'ひこうきのなかでやること（本・ゲーム）をきめた'},
+  {id:'p8', emoji:'🎁', text:'日本からもっていくおみやげをきめた'},
+  {id:'p9', emoji:'💵', text:'アメリカのお金（ドル）のことを知った'},
+  {id:'p10',emoji:'⛺', text:'サマーキャンプにもっていくものリストを作った'},
+];
+
+// えいごどうが（全チャンネルまとめて・毎日1本ローテーション）
+const ALL_VIDEOS = [
+  {
+    videoId: 'hY3HKcifsow',
+    title: '夏のえいごボキャブラリー！',
+    channel: 'あいうえおフォニックス',
+    quiz: [
+      {
+        q: '「日やけした」を英語でなんという？',
+        choices: ['got sunburned 🌞', 'got wet 🌧️', 'got cold ❄️'],
+        answer: 0,
+        ok: '「got sunburned」だよ！sun=おひさま、burned=やけた！',
+        ng: '正かいは「got sunburned」！sun=おひさま、burned=やけた！',
+      },
+      {
+        q: '「あせをかく」を英語でなんという？',
+        choices: ['sweat 💦', 'cry 😢', 'sneeze 🤧'],
+        answer: 0,
+        ok: '「sweat」！「I\'m sweating!」って言ってみよう！',
+        ng: '正かいは「sweat」！あせはsweatだよ！',
+      },
+    ],
+  },
+  {
+    videoId: '14Wt6H11Lvw',
+    title: 'ニューヨークのカフェでちゅうもん！',
+    channel: 'バイリンガール Bilingirl Chika',
+    quiz: [
+      {
+        q: 'カフェで注文するとき、店員さんにまず何を聞かれた？',
+        choices: ['名まえ（"Can I get your name?"）📛', '年れい 🎂', 'すきな食べもの 🍽️'],
+        answer: 0,
+        ok: 'そう！アメリカのカフェでは注文のときに名まえを聞かれることが多いよ！',
+        ng: '正かいは「名まえ」！"Can I get your name?"って聞かれるよ！',
+      },
+      {
+        q: 'Bilingirl がカフェで注文したのはどれ？',
+        choices: ['アボカドトーストとバナナブレッド 🥑🍌', 'ピザとサラダ 🍕🥗', 'バーガーとフライ 🍔🍟'],
+        answer: 0,
+        ok: 'アボカドトーストとバナナブレッド！ニューヨークのカフェらしいメニューだね！',
+        ng: '正かいはアボカドトーストとバナナブレッド！おしゃれなNYカフェだね！',
+      },
+    ],
+  },
+  {
+    videoId: '6UFNt5tMRHw',
+    title: '英語じゃないカタカナのことば（和製英語）',
+    channel: 'あいうえおフォニックス',
+    quiz: [
+      {
+        q: '「コンセント」はアメリカ英語でなんていう？',
+        choices: ['outlet 🔌', 'consent 🤝', 'connect 🔗'],
+        answer: 0,
+        ok: 'そう！アメリカでは「outlet（アウトレット）」！日本の「コンセント」は通じないよ！',
+        ng: '正かいは「outlet」！「コンセント」は英語じゃないんだよ！',
+      },
+      {
+        q: '「ホチキス」は英語でなんていう？',
+        choices: ['stapler 📎', 'hotchkiss 🤔', 'binder 📁'],
+        answer: 0,
+        ok: '「stapler（ステープラー）」！ホチキスはもともとメーカーの名まえなんだよ！',
+        ng: '正かいは「stapler」！ホチキスは英語じゃなかったんだね！',
+      },
+    ],
+  },
+  {
+    videoId: 'LohpkBSRVJo',
+    title: 'アメリカのアイスやさんでかいわ！',
+    channel: 'バイリンガール Bilingirl Chika',
+    quiz: [
+      {
+        q: 'アイスを注文するとき「I\'ll do the vanilla.」の「I\'ll do」はどういう意味？',
+        choices: ['「〜にします」🍦', '「〜を作ります」🛠️', '「〜が大好き」❤️'],
+        answer: 0,
+        ok: '「I\'ll do ～」は「〜にします」！お店でさらっと使えるかっこいい表現だよ！',
+        ng: '正かいは「〜にします」！「I\'ll do the vanilla」＝「バニラにします」だよ！',
+      },
+      {
+        q: '「How big is the portion?」はなにを聞いている？',
+        choices: ['「りょう（量）はどのくらい？」🍨', '「いくらですか？」💰', '「何味がある？」🎨'],
+        answer: 0,
+        ok: '「portion（ポーション）」は量のこと！アメリカはりょうが多いから大事な質問だね！',
+        ng: '正かいは「量はどのくらい？」！portionは量・ひとり分のことだよ！',
+      },
+    ],
+  },
+  {
+    videoId: '2RPqlAv-bIU',
+    title: '「ばらばら」って英語でなんていう？',
+    channel: 'あいうえおフォニックス',
+    quiz: [
+      {
+        q: 'ものがちらばっているとき「ばらばら」に一番近い英語はどれ？',
+        choices: ['scattered ✨', 'together 🤝', 'organized 📋'],
+        answer: 0,
+        ok: '「scattered」だよ！葉っぱがちらばってるのも「scattered leaves」！',
+        ng: '正かいは「scattered」！ちらばっているイメージだよ！',
+      },
+      {
+        q: 'パズルのピースがばらばらのとき、英語でいうと？',
+        choices: ['scattered pieces 🧩', 'one piece 🔷', 'clean pieces ✅'],
+        answer: 0,
+        ok: '「scattered pieces」！scatteredをおぼえてね！',
+        ng: '正かいは「scattered pieces」！',
+      },
+    ],
+  },
+  {
+    videoId: 'Smhrlyasx8c',
+    title: 'アメリカのスターバックスでちゅうもん！',
+    channel: 'バイリンガール Bilingirl Chika',
+    quiz: [
+      {
+        q: 'スタバで「お名前は？」と聞かれることがある。なんのため？',
+        choices: ['カップに名前を書くため ✍️', '会員とうろくのため 📋', 'よやくのため 📅'],
+        answer: 0,
+        ok: 'できあがったら名前をよばれるよ！名前をはっきり言おう！',
+        ng: '正かいは「カップに名前を書くため」！呼ばれたら取りに行こう！',
+      },
+      {
+        q: '「What size would you like?」と聞かれたら？',
+        choices: ['「サイズはどれにしますか？」📏', '「何個ですか？」🔢', '「温かいですか？冷たいですか？」🌡️'],
+        answer: 0,
+        ok: 'Small・Medium・Largeかな？「Small, please!」と言ってみよう！',
+        ng: '正かいは「サイズはどれにしますか？」！Small, pleaseと言おう！',
+      },
+    ],
+  },
+  {
+    videoId: '5rH9_oDmPao',
+    title: '「it」と「that」のちがい',
+    channel: 'あいうえおフォニックス',
+    quiz: [
+      {
+        q: '「わあ、それかっこいい！」と言いたいとき、どちらをつかう？',
+        choices: ["That's cool! 😎", "It's cool! ✨", 'どちらもおなじ'],
+        answer: 0,
+        ok: '「That\'s cool!」目の前のものをさして言うときはThat！',
+        ng: '正かいは「That\'s cool!」！目の前のものをさすときはThat！',
+      },
+      {
+        q: 'てんきを言うとき、どちらをつかう？',
+        choices: ["It's sunny! ☀️", "That's sunny! 🌤️", 'どちらでもOK'],
+        answer: 0,
+        ok: '「It\'s sunny!」てんきはいつも「It\'s ___!」を使うよ！',
+        ng: '正かいは「It\'s sunny!」！てんきはいつもItだよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'pMv1CsKCDaM',
+    title: 'Family Life - 家族のえいごかいわ',
+    channel: 'Easy English',
+    quiz: [
+      {
+        q: '「How many people are in your family?」は何を聞いている？',
+        choices: ['「家族は何人ですか？」👨‍👩‍👧', '「家族の名前は？」📛', '「家族はどこにいますか？」🗺️'],
+        answer: 0,
+        ok: '「My family has 3 people.」のように答えてみよう！',
+        ng: '正かいは「家族は何人ですか？」！「3 people」のように答えよう！',
+      },
+      {
+        q: '「sibling（シブリング）」ってどんな意味？',
+        choices: ['きょうだい（お兄さん・お姉さん・弟・妹）👫', '友だち 👋', 'いとこ 👦'],
+        answer: 0,
+        ok: '「sibling」はきょうだい全員をまとめた言葉だよ！',
+        ng: '正かいは「きょうだい」！「I have one sibling.」って言ってみよう！',
+      },
+    ],
+  },
+  {
+    videoId: '4aWdJ-UYXdM',
+    title: 'フォニックス「y」と「ey」のおと',
+    channel: 'あいうえおフォニックス',
+    quiz: [
+      {
+        q: '「y」から始まることばはどれ？',
+        choices: ['yellow 🟡', 'cat 🐱', 'sun ☀️'],
+        answer: 0,
+        ok: '「yellow」！Yの音は「イ」のおとだよ！',
+        ng: '正かいは「yellow」！y-e-l-l-o-w！',
+      },
+      {
+        q: '「they（かれら）」の「ey」はどんなおと？',
+        choices: ['エイ（ay）🎵', 'イー（ee）🎵', 'アイ（eye）🎵'],
+        answer: 0,
+        ok: '「エイ」のおと！「they」は「ゼイ」とよむよ！',
+        ng: '正かいは「エイ」！theyは「ゼイ」とよむよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'oaiT3rJ0mVs',
+    title: '4さいの女の子がマックのドライブスルーにちょうせん！',
+    channel: 'バイリンガール英会話 | Bilingirl Chika',
+    quiz: [
+      {
+        q: 'ドライブスルーでちゅうもんするとき、どうやってつたえる？',
+        choices: ['まどから話しかけてちゅうもんする 🚗', 'お店の中に入って注文する 🏠', '電話でちゅうもんする 📞'],
+        answer: 0,
+        ok: 'そう！車のまどからマイクに話しかけるんだよ！',
+        ng: '正かいは、まどから話しかけてちゅうもん！ドライブスルーは車からでないよ！',
+      },
+      {
+        q: '「To go, please!」はどういうときに言う？',
+        choices: ['お持ち帰りにするとき 🥡', 'お店で食べるとき 🍽️', 'おかわりをするとき 🔁'],
+        answer: 0,
+        ok: '「to go」＝もち帰り！「for here」＝お店で食べる！',
+        ng: '正かいは「お持ち帰り」のとき！「for here」がお店で食べるだよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'rvmUunkuZYs',
+    title: 'ニューヨークでクラフト体験！',
+    channel: 'バイリンガール英会話 | Bilingirl Chika',
+    quiz: [
+      {
+        q: 'アメリカのクラフト体験で一番大切にされていることはなに？',
+        choices: ['自分のアイデアを自由にひょうげんすること 🎨', '先生のまねをすること 👩‍🏫', 'だれよりも速く作ること ⏱️'],
+        answer: 0,
+        ok: 'そう！アメリカでは「自分らしさ」をひょうげんすることがとっても大切！',
+        ng: '正かいは「自分のアイデアを自由にひょうげん」！まねや速さより、自分らしさが大事！',
+      },
+      {
+        q: 'クラフトで何かを作るとき、英語でなんとさそう？',
+        choices: ["Let's make something! 🛠️", "Let's eat something! 🍴", "Let's sleep! 😴"],
+        answer: 0,
+        ok: '「Let\'s make ～!」は「～を作ろう！」という意味だよ！',
+        ng: '正かいは「Let\'s make something!」！makeは「作る」だよ！',
+      },
+    ],
+  },
+  {
+    videoId: '3QJtTL-ts0s',
+    title: '英語でクッキング！いなりずし',
+    channel: 'バイリンガール英会話 | Bilingirl Chika',
+    quiz: [
+      {
+        q: '料理の手じゅんを英語で説明するとき「まず」はなんという？',
+        choices: ['First 🥇', 'Finally 🏁', 'Maybe 🤔'],
+        answer: 0,
+        ok: '「First（まず）」→「Next（つぎに）」→「Finally（さいごに）」の順だよ！',
+        ng: '正かいは「First」！料理の説明でよく使うことばだよ！',
+      },
+      {
+        q: '「いただきます」に近い英語はどれ？',
+        choices: ["Let's eat! 🍽️", "I'm hungry! 😋", 'Thank you! 🙏'],
+        answer: 0,
+        ok: '「Let\'s eat!」がいちばん近い！アメリカには「いただきます」という言葉はないんだよ。',
+        ng: '正かいは「Let\'s eat!」！「いただきます」はアメリカにはない文化だよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'tmY51S9lEEY',
+    title: 'なつの夜！手作りアイスとおにわで映画！',
+    channel: 'バイリンガール英会話 | Bilingirl Chika',
+    quiz: [
+      {
+        q: 'この動画でかぞくがした「なつの夜のたのしいこと」はどれ？',
+        choices: ['アイスを作っておにわで映画をみた 🍨🎬', 'プールでおよいだ 🏊', 'バーベキューをした 🔥'],
+        answer: 0,
+        ok: 'そう！手作りアイスを作って、おにわでえいがを見たんだよ！すてきな夏の夜だね！',
+        ng: '正かいは「アイスを作っておにわで映画」！おうちでできる夏のたのしみだね！',
+      },
+      {
+        q: 'えいがをみようとさそうとき、英語でなんていう？',
+        choices: ["Let's watch a movie! 🎬", "Let's go to school! 🏫", "Let's wake up! ☀️"],
+        answer: 0,
+        ok: '「Let\'s watch a movie!」！watchは「みる」、movieは「えいが」だよ！',
+        ng: '正かいは「Let\'s watch a movie!」！watchは「みる」だよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'wXacdurphyc',
+    title: 'わたしたちの週まつのおでかけ・実用的な英語',
+    channel: 'バイリンガール英会話 | Bilingirl Chika',
+    quiz: [
+      {
+        q: 'お店でこれはいくらですか？と聞くときなんていう？',
+        choices: ['How much is this? 💰', 'What is this? 🤔', 'Where is this? 📍'],
+        answer: 0,
+        ok: '「How much is this?」！お買い物でつかえる大事なフレーズだよ！',
+        ng: '正かいは「How much is this?」！How much＝いくら？だよ！',
+      },
+      {
+        q: 'お店の人に「すみません、ちょっといいですか？」と声をかけるとき、なんという？',
+        choices: ['Excuse me! 🙋', 'I\'m sorry! 😢', 'Help! 🆘'],
+        answer: 0,
+        ok: '「Excuse me!」！話しかけるときはExcuse meを使おう！',
+        ng: '正かいは「Excuse me!」！Sorryはあやまるとき、Excuse meは声をかけるときだよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'tTH6jOhXPts',
+    title: '娘の3さいのたんじょうび！一日中おいわい！',
+    channel: 'バイリンガール英会話 | Bilingirl Chika',
+    quiz: [
+      {
+        q: 'たんじょうびにうたう歌のさいしょのフレーズはどれ？',
+        choices: ['Happy birthday to you 🎂', 'Twinkle twinkle little star ⭐', 'Old MacDonald had a farm 🐄'],
+        answer: 0,
+        ok: '「Happy birthday to you, happy birthday to you...」！歌えるかな？',
+        ng: '正かいは「Happy birthday to you」！たんじょうびパーティーのきほんの歌だよ！',
+      },
+      {
+        q: 'プレゼントをもらったとき、なんと言う？',
+        choices: ['Thank you so much! 🎁', 'I don\'t like it. 😒', 'Can I have more? 🙏'],
+        answer: 0,
+        ok: '「Thank you so much!」！so muchをつけるとより気もちがつたわるよ！',
+        ng: '正かいは「Thank you so much!」！プレゼントをもらったら笑顔でありがとう！',
+      },
+    ],
+  },
+  {
+    videoId: 'M8jLe8DyTxk',
+    title: 'リアルな朝！子どもとモーニング英会話',
+    channel: 'バイリンガール英会話 | Bilingirl Chika',
+    quiz: [
+      {
+        q: '朝、なかなか起きない子に「はやく起きて！」というとき、なんという？',
+        choices: ['Wake up! ⏰', 'Go to sleep! 😴', 'Come here! 👋'],
+        answer: 0,
+        ok: '「Wake up!」！wakeは「おきる」、upは「上に」！起き上がれ～！',
+        ng: '正かいは「Wake up!」！朝によく使うことばだよ！',
+      },
+      {
+        q: '朝ごはんのしたくができたとき「ごはんできたよ！」はなんていう？',
+        choices: ['Breakfast is ready! 🍳', 'Time for bed! 🛏️', 'Let\'s go outside! 🌤️'],
+        answer: 0,
+        ok: '「Breakfast is ready!」！readyは「じゅんびできた」という意味だよ！',
+        ng: '正かいは「Breakfast is ready!」！readyは「じゅんびOK」だよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'LgFboxH5_ZI',
+    title: '英語で歌おう！Five Little Ducks 🦆',
+    channel: 'バイリンガール英会話 | Bilingirl Chika',
+    quiz: [
+      {
+        q: 'Five Little Ducksで、こアヒルたちはどこに行ってしまった？',
+        choices: ['山のむこう（over the hill）🏔️', 'うみのそこ 🌊', 'おとなりのおうち 🏠'],
+        answer: 0,
+        ok: '「over the hill and far away」！山のむこうのずっと遠くに行ってしまったんだね！',
+        ng: '正かいは「山のむこう（over the hill）」！歌のサビのフレーズだよ！',
+      },
+      {
+        q: '最後にこアヒルたちをよびもどしたのはだれ？',
+        choices: ['お母さんアヒル 🦆', 'お父さんアヒル 🦆', '農家のおじさん 👨‍🌾'],
+        answer: 0,
+        ok: 'お母さんアヒルが「Quack quack quack!」とよんだら、みんなかえってきたよ！',
+        ng: '正かいはお母さんアヒル！「Quack quack quack!」ってよんだんだよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'QtfLAyxUQpA',
+    title: 'Bluey - The Creek is Beautiful 💙',
+    channel: 'Bluey - Official Channel',
+    quiz: [
+      {
+        q: 'ブルーイたちはどこで遊んでいた？',
+        choices: ['小川（クリーク）🏞️', '大きなプール 🏊', 'ショッピングモール 🏬'],
+        answer: 0,
+        ok: 'そう！「creek（クリーク）」は小川のこと！自然の中で遊ぶのって楽しいね！',
+        ng: '正かいは小川（creek）！creeは「小川」という意味だよ！',
+      },
+      {
+        q: 'ブルーイのお父さんの名まえは？',
+        choices: ['Bandit 🐕', 'Bob 🐕', 'Barry 🐕'],
+        answer: 0,
+        ok: '「Bandit（バンディット）」！ブルーイのかぞくはみんな個性的な名まえだね！',
+        ng: '正かいは「Bandit」！ブルーイ・バンゴ・バンディット・チリのかぞくだよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'LxexUt8xM1w',
+    title: "Where's Spot? 🐶",
+    channel: 'LolliPop Animated Book',
+    quiz: [
+      {
+        q: 'スポットをさがしていたのはだれ？',
+        choices: ['お母さんのサリー 🐶', 'お父さん 🐕', 'おじいちゃん 👴'],
+        answer: 0,
+        ok: 'お母さんのサリーがスポットをさがしていたんだよ！',
+        ng: '正かいはお母さんのサリー！スポットはかくれんぼがすきなのかな？',
+      },
+      {
+        q: 'スポットをさがしてかいだんの下をみたとき、そこにいたのはだれ？',
+        choices: ['クマ 🐻', 'ライオン 🦁', 'さる 🐒'],
+        answer: 0,
+        ok: 'クマがいたんだよ！スポットじゃなくてびっくり！',
+        ng: '正かいはクマ！いろんなところにいろんな動物がかくれていたね！',
+      },
+    ],
+  },
+  {
+    videoId: 'cO2YTVz7Qj8',
+    title: 'Thank You, Omu! 🍲',
+    channel: 'Stories with Star',
+    quiz: [
+      {
+        q: 'Omuがいちにちかけて作ったのはなに？',
+        choices: ['シチュー（stew）🍲', 'ケーキ 🎂', 'ピザ 🍕'],
+        answer: 0,
+        ok: 'Omuはおいしいシチュー（stew）を作ったんだよ！いいにおいがしてきそう！',
+        ng: '正かいはシチュー（stew）！ゆっくりじっくり作ったんだよ！',
+      },
+      {
+        q: 'まちのみんながOmuのシチューを食べにきたあと、シチューはどうなった？',
+        choices: ['ぜんぶなくなってしまった 🥣', 'たくさんのこった 🍲', 'Omuだけが食べた 🙋'],
+        answer: 0,
+        ok: 'みんなが食べてシチューはぜんぶなくなった！でもOmuはとても幸せだったよ！',
+        ng: '正かいは「ぜんぶなくなった」！みんなによろこんでもらえてOmuはうれしかったね！',
+      },
+    ],
+  },
+  {
+    videoId: '0YbMMAgZSFE',
+    title: 'The Cool Bean 🫘',
+    channel: 'Magical Little Minds - Read Along Storytime',
+    quiz: [
+      {
+        q: '主人公のbeanはさいしょ、どんな気もちだった？',
+        choices: ['まわりのcool beanたちをうらやましいと思っていた 😔', 'じぶんがいちばんかっこいいと思っていた 😎', 'なにもかんがえていなかった 😶'],
+        answer: 0,
+        ok: 'そう！さいしょはうらやましくて自分がダサいと思っていたんだよ！',
+        ng: '正かいは「うらやましいと思っていた」！さいしょはじしんがなかったんだね！',
+      },
+      {
+        q: '最後に主人公がやった「本当にcoolなこと」はなに？',
+        choices: ['こまっている人をさりげなくたすけた 🤝', 'ダンスをおどった 💃', 'いちばん速くはしった 🏃'],
+        answer: 0,
+        ok: 'そう！かっこいいことって、じぶんを見せることじゃなくて、だれかをたすけることだったんだね！',
+        ng: '正かいは「こまっている人をたすけた」！本当のcoolさとは何か、気づかせてくれる本だよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'fCZunYvHMDY',
+    title: "We're Going on a Bear Hunt 🐻",
+    channel: 'MovingStories',
+    quiz: [
+      {
+        q: '草むらをとおるとき、どんなおとがした？',
+        choices: ['Swishy swashy 🌾', 'Splish splosh 💧', 'Squelch squerch 👣'],
+        answer: 0,
+        ok: 'そう！草むらは「Swishy swashy」！川は「Splish splosh」、ぬかるみは「Squelch squerch」だよ！',
+        ng: '正かいは「Swishy swashy」！草むらをかき分けるおとだよ！',
+      },
+      {
+        q: 'クマをみつけたとき、家族はどうした？',
+        choices: ['にげて家にかえった 🏠💨', 'クマとともだちになった 🤝', 'クマをつかまえた 🎣'],
+        answer: 0,
+        ok: 'きてきた道をぜんぶもどって、家にかえってベッドにもぐったんだよ！',
+        ng: '正かいは「にげて家にかえった」！きてきた全部の場所をものすごい速さでもどったんだよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'QhhUE1qe3GA',
+    title: 'The Gruffalo 🧌',
+    channel: 'Reading is',
+    quiz: [
+      {
+        q: 'ねずみはさいしょ、なぜグラファロのことを話した？',
+        choices: ['きつねやフクロウをおいはらうために「こわいともだちがいる」とうそをついた 🦊', 'グラファロとともだちになりたかったから 😊', 'グラファロに食べられないようにおねがいするため 🙏'],
+        answer: 0,
+        ok: 'そう！ねずみはグラファロをじぶんで作り上げたうそのともだちにしたんだよ！でも本当にあらわれてびっくり！',
+        ng: '正かいは「うそをついてきつねをおいはらうため」！ところが本当のグラファロがあらわれてびっくり！',
+      },
+      {
+        q: '最後にグラファロをこわがらせたのはだれ？',
+        choices: ['ねずみ 🐭', 'フクロウ 🦉', 'きつね 🦊'],
+        answer: 0,
+        ok: 'ねずみが「森でいちばんこわいのはじぶんだ」とグラファロに思わせたんだよ！すごい知えだね！',
+        ng: '正かいはねずみ！小さくてもちえをつかえばこわいものだってこわがらせられる！',
+      },
+    ],
+  },
+  {
+    videoId: 'f2Mq55GYSHQ',
+    title: "Stephanie's Ponytail 💇",
+    channel: 'The Floating Bubble',
+    quiz: [
+      {
+        q: 'ステファニーが新しいかみがたにするたびに、クラスのみんなはどうした？',
+        choices: ['ぜんいん同じかみがたをまねした 💇', 'ステファニーのことをわらった 😂', 'だれもきがつかなかった 😐'],
+        answer: 0,
+        ok: 'そう！ステファニーが何をしてもみんなまねするんだよ！それがだんだんこまってきたんだね！',
+        ng: '正かいは「まねした」！ステファニーが何をしてもぜんいんまねするんだよ！',
+      },
+      {
+        q: 'さいごにステファニーはなんと言ってみんなをびっくりさせた？',
+        choices: ['「明日はまるはげにする」と言った 😲', '「学校をやめる」と言った 🏃', '「もうかみがたはかえない」と言った 🙅'],
+        answer: 0,
+        ok: 'そしてつぎの日、まるはげにしてきたのはクラスのみんなで、ステファニーはちがうかみがただった！ステファニー最高！',
+        ng: '正かいは「まるはげにする」！そしてまるはげにしてきたのはクラスのみんな…ステファニーは違うかみがただったよ！',
+      },
+    ],
+  },
+  {
+    videoId: '88j5rucAiP4',
+    title: 'I Want My Hat Back 🎩',
+    channel: 'Read Aloud Childrens Books And Fun Stuff',
+    quiz: [
+      {
+        q: 'くまのぼうしをかくしていたのはだれ？',
+        choices: ['うさぎ 🐰', 'へび 🐍', 'きつね 🦊'],
+        answer: 0,
+        ok: 'うさぎが「しらない」とうそをついていたんだよ！くまが気づいたときはおそかった…',
+        ng: '正かいはうさぎ！「ぼうしはみていない」とうそをついていたんだよ！',
+      },
+      {
+        q: 'くまはどうやってうさぎがぼうしをもっていることに気づいた？',
+        choices: ['「あかくてとがったぼうし」という話を聞いて思い出した 💡', 'うさぎがじはくした 😅', '夢でみた 💤'],
+        answer: 0,
+        ok: 'うさぎが「あかくてとがったぼうし？しらない」と言ったのに、くまがあとから「あ、それぼくのぼうしだ！」と気づいたんだよ！',
+        ng: '正かいは「話を聞いて思い出した」！うさぎのことばがヒントになったんだよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'GkA2-q_1mm0',
+    title: 'Pete the Cat and the Lost Tooth 🐱',
+    channel: 'LolliPop Animated Book',
+    quiz: [
+      {
+        q: 'ピートがなくしたはをわたした「とくべつな存在」はだれ？',
+        choices: ['トゥースフェアリー（はのようせい）🧚', 'お母さん 👩', '歯医者さん 🦷'],
+        answer: 0,
+        ok: 'そう！アメリカでははがぬけたら「トゥースフェアリー」がやってきてお金やプレゼントをおいていってくれるんだよ！',
+        ng: '正かいは「トゥースフェアリー（はのようせい）」！アメリカのすてきな文化だよ！',
+      },
+      {
+        q: 'ピートははを見つけるためにどこをさがした？',
+        choices: ['教室のあちこち、ランチルーム、グラウンドなど 🏫', 'おうちの中だけ 🏠', 'プールの中 🏊'],
+        answer: 0,
+        ok: 'がっこうのいろんな場所をさがしたんだよ！みんなもいっしょにさがしてくれてたね！',
+        ng: '正かいは「学校のいろんな場所」！教室・ランチルーム・グラウンドをさがしたよ！',
+      },
+    ],
+  },
+];
+
+const CULTURE_FACTS = [
+  {id:'f1',emoji:'🏙️',title:'シカゴってどんなまち？',text:'シカゴはアメリカで3番目に大きいまち！ミシガン湖という大きな湖のほとりにあって、「ウィンディシティ（風のまち）」とよばれているよ。'},
+  {id:'f2',emoji:'🍕',title:'シカゴのめいぶつフード',text:'シカゴといえば「ディープディッシュピザ」！ふかふかのあついピザで、チーズがたっぷり。ホットドッグも有名だよ。ケチャップはかけないのがシカゴりゅう！'},
+  {id:'f3',emoji:'💵',title:'アメリカのお金のこと',text:'アメリカのお金は「ドル（$）」。1ドル＝100セント。お金は$1, $5, $10, $20があるよ。コインはペニー（1¢）、ニッケル（5¢）、ダイム（10¢）、クォーター（25¢）！'},
+  {id:'f4',emoji:'🌡️',title:'シカゴの7月〜8月のてんき',text:'7〜8月のシカゴはとても暑い！気おんは30℃くらいになる日も。でも日本のなつみたいにじめじめはしてないよ。夕立が急に来ることもあるから注意！'},
+  {id:'f5',emoji:'🎡',title:'シカゴのかんこうスポット',text:'ネイビーピア（ゆうえんちがある！）、ミレニアムパーク（ビーンという大きな豆みたいなオブジェ）、フィールドはくぶつかんなど楽しい場所がいっぱい！'},
+  {id:'f6',emoji:'🏕️',title:'サマーキャンプってなに？',text:'アメリカの子どもたちはなつやすみが長い！サマーキャンプではしぜんの中でアウトドアたいけんをしたり、スポーツや工作をしたりするよ。えいごでお友だちを作るチャンス！'},
+  {id:'f7',emoji:'🚨',title:'こまったときは「911」',text:'アメリカできんきゅうのときは「911」に電話！日本の110番・119番とおなじ。でもまずはおばさんか近くの大人をよぼうね。"Help!" と大きなこえを出すのも大事！'},
+  {id:'f8',emoji:'🇺🇸',title:'アメリカってどんな国？',text:'アメリカは50のしゅうからできている国。シカゴはイリノイしゅうにある。アメリカこっかは「Star-Spangled Banner（星条旗）」。自由の女神はニューヨークにあるよ！'},
+  {id:'f9',emoji:'🏀',title:'シカゴのスポーツチーム',text:'シカゴには有名なスポーツチームがいっぱい！バスケットボールの「シカゴ・ブルズ」、やきゅうの「シカゴ・カブス」と「シカゴ・ホワイトソックス」なんかが有名だよ！'},
+  {id:'f10',emoji:'🍳',title:'アメリカのちょう食',text:'アメリカのちょう食はボリュームたっぷり！パンケーキ、ベーコン、エッグなど。シリアルや牛にゅうも大人気。レストランのもりつけはとても大きいことが多いよ！'},
+  {id:'f11',emoji:'📏',title:'アメリカのたんい',text:'アメリカはながさを「インチ・フィート・マイル」、おもさを「ポンド」でつたえるよ。気おんは℃じゃなくて℉（カ゛ラス）でいう。100℉は38℃くらいとても暑い！'},
+  {id:'f12',emoji:'🚇',title:'シカゴの電車「L」',text:'シカゴには「L（エル）」というゆうめいな電車があるよ！まちの上を走るので「エレベーテッド（高いところを走る）」のLなんだ。かまぼこみたいでかっこいい！'},
+  {id:'f13',emoji:'🛒',title:'アメリカのスーパー',text:'アメリカのスーパーはとても大きい！日本では見たことないものがたくさんあるよ。チーズの種類がすごく多かったり、ジャンボサイズのお菓子があったりするよ。'},
+  {id:'f14',emoji:'💰',title:'チップってなに？',text:'アメリカのレストランではお食事のだいきんのほかに「チップ」というお礼のお金をはらうことがあるよ。おばさんにどうすればいいか聞いてみてね。'},
+  {id:'f15',emoji:'🌽',title:'アメリカのおまつり・イベント',text:'7月4日は「どくりつきねんび」でアメリカ中でひ花がぼん上がるよ！シカゴでもとても大きなおいわいがあって、まちがはなやかになるよ。'},
+  {id:'f16',emoji:'🗣️',title:'アメリカ人のあいさつ',text:'アメリカ人はあいさつがとてもフレンドリー！はじめて会う人にも「Hi!」や「How are you?」とよく声をかけるよ。えがおで「Fine, thank you!」とこたえてみてね。'},
+  {id:'f17',emoji:'🏫',title:'アメリカの学校と日本のちがい①',text:'アメリカの学校では給食がないことが多いよ。自分でお弁当を持っていくか、学校のカフェテリアでお金をはらって買うんだ。すきなものをえらべるのはうれしいね！'},
+  {id:'f18',emoji:'👟',title:'アメリカの学校と日本のちがい②',text:'日本の学校では上ばきにはきかえるけど、アメリカでは外ばきのまま教室に入るよ。そうじの時間もないことが多くて、そうじのひとがやってくれることが多いんだ。'},
+  {id:'f19',emoji:'🎒',title:'アメリカの学校と日本のちがい③',text:'アメリカでは係や当番がないことが多い。日本みたいに「きゅうしょくとうばん」や「にっちょく」はないけど、クラスのみんなで話し合って決めることを大切にしているよ。'},
+  {id:'f20',emoji:'🌍',title:'アメリカはいろんな人がいる国',text:'アメリカには世界中からきた人たちがくらしているよ。白人、黒人、アジア人、ヒスパニック系など、いろんなはだの色・ぶんかをもつ人たちがいっしょにくらしているんだ。'},
+  {id:'f21',emoji:'✊',title:'みんなちがって、みんないい',text:'アメリカでは「自分らしくいること」がとても大切にされているよ。はだの色や国せきでひとをさべつするのはぜったいにいけないこと。ちがいをみとめてとも友だちになれるよ！'},
+  {id:'f22',emoji:'🙋',title:'アメリカの授業のスタイル',text:'アメリカの授業では自分のいけんをはっぴょうすることがとても大切！しつもんにてをあげて答えたり、グループでぎろんしたりするよ。まちがえることをおそれないのがポイント！'},
+  {id:'f23',emoji:'🚪',title:'ドアのマナー',text:'アメリカでは、ドアを通ったあとに後ろの人のためにドアをおさえるのがマナー！知らない人にも「どうぞ」とドアをおさえてあげると、"Thank you!"と言ってもらえるよ。'},
+  {id:'f24',emoji:'🍽️',title:'食事のマナー',text:'アメリカではナイフとフォークを使うことが多い。食事中に音を立てて食べるのはNGとされているよ。テーブルについたらnapkin（ナプキン）をひざの上におくのがマナーだよ。'},
+  {id:'f25',emoji:'🙏',title:'「すみません」の伝え方',text:'日本では「すみません」をよく使うけど、英語では"Excuse me"や"Sorry"を使い分けるよ。人に話しかけるときは"Excuse me"、あやまるときは"Sorry"！おぼえておいてね。'},
+  {id:'f26',emoji:'😊',title:'ほめあう文化',text:'アメリカでは「じょうずだね！」「かわいいね！」とほめることがとても多い。ほめられたら「ありがとう（Thank you!）」とすなおにこたえるのがスマートなんだ。日本みたいに「そんなことないよ」と言わなくていいよ！'},
+  {id:'f27',emoji:'✋',title:'自分の気もちをはっきり伝えよう',text:'アメリカでは「いやだ」「やりたくない」と自分の気もちをはっきり言うことがとても大切！がまんして黙っていると、相手に伝わらないよ。"No, thank you."や"I don\'t want to."と言っていいんだよ。'},
+  {id:'f28',emoji:'💬',title:'「なんでもいい」はつたわらない',text:'アメリカで「どっちがいい？」と聞かれたとき、「なんでもいいよ」と答えると相手がこまってしまうことがあるよ。自分のすきなものを「I like this one!」とはっきり言うのがコミュニケーションのコツ！'},
+  {id:'f29',emoji:'🙌',title:'はっきりYES・NOを言う',text:'日本では「うーん…」とあいまいに答えることがあるよね。アメリカでは"Yes!"か"No!"をはっきり言うのがふつう。あいまいな返事は「わからない」「やる気がない」と思われることがあるよ。'},
+  {id:'f30',emoji:'👀',title:'アイコンタクトはだいじ',text:'アメリカでは話すときに相手の目を見るのがとても大切なマナー。目を見て話すと「ちゃんと聞いてるよ！」「信らいしてるよ！」というきもちが伝わるよ。はずかしくてもちょっとチャレンジしてみてね。'},
+  {id:'f31',emoji:'🤝',title:'はじめましてのじこしょうかい',text:'アメリカでは新しいひとに会ったとき、自分から名まえを言うのがふつう。"Hi, I\'m Chihana!"と言えたらかんぺき！あくしゅ（ハンドシェイク）をすることも多いよ。えがおでどうぞ！'},
+  {id:'f32',emoji:'🗣️',title:'わからないときは聞いていい',text:'英語がわからなくてもだいじょうぶ！"Can you say that again?"（もう一度いってください）や"I don\'t understand."（わかりません）と正直に言うほうが、だまっているよりずっといいよ。'},
+  {id:'f33',emoji:'🔒',title:'日本とアメリカの安全のちがい',text:'日本はせかいでもとても安全な国だよ。アメリカでも安全なところはたくさんあるけど、日本とはちがって、気をつけないといけない場所もあるんだ。ひろみちゃんといっしょにいれば安心！'},
+  {id:'f34',emoji:'👫',title:'ひろみちゃんとはなれないこと',text:'シカゴではひろみちゃんといつもいっしょにいようね。「ちょっとそこまで」でも一人で行ってはダメ。はぐれてしまったときは、その場でとまって動かないで、ひろみちゃんが来るのを待つこと！'},
+  {id:'f35',emoji:'🚶',title:'知らない人についていかない',text:'知らない人に「お菓子あげるよ」「車に乗って」と言われても、ぜったいについていかないこと。これは日本でもアメリカでも同じ大切なルール。こわいと思ったら大きなこえで"Help!"とさけんでね。'},
+  {id:'f36',emoji:'🗺️',title:'ひろみちゃんの話をよく聞こう',text:'ひろみちゃんはシカゴをよく知っているおとな。「ここはいかない」「こっちを歩こう」と言ったら、りゆうがわからなくてもしたがってね。おとなの判断を信じることが、自分を守ることになるよ。'},
+  {id:'f37',emoji:'📵',title:'知らない人に声をかけられたら',text:'道でよく知らない人に話しかけられることがある。フレンドリーな人が多いけど、こわいと感じたらひろみちゃんの近くに行って。知らない人からの贈り物は受け取らなくていいよ。'},
+  {id:'f38',emoji:'😢',title:'ホームシックになってもだいじょうぶ',text:'おうちやおかあさんが恋しくなることを「ホームシック」というよ。1か月間もいれば、さみしくなる日があっても当然！そんなときはひろみちゃんに気もちを伝えてね。泣いてもいいんだよ。'},
+  {id:'f39',emoji:'😮',title:'カルチャーショックってなに？',text:'アメリカに来て「えっ、こんなのあり？」とおどろくことがたくさんあるかも。それを「カルチャーショック」というよ。おどろいたり、とまどったりするのはふつうのこと。じょじょになれていくよ！'},
+  {id:'f40',emoji:'💪',title:'英語が完ぺきじゃなくていい',text:'英語がうまく言えなくてもだいじょうぶ！大切なのは「つたえようとすること」。まちがえてもわらったりしないよ。ゆっくり、ていねいに話せばきっとつたわる。チャレンジしたことがえらいんだよ！'},
+  {id:'f41',emoji:'🌈',title:'たびからかえったら、もっと成長してるよ',text:'1かげつのシカゴたびで、英語もアメリカぶんかも、そして「自分でできる！」というじしんもついてくるよ。こわいことがあっても、のりこえたときのちはなちゃんはもっともっとつよくなってるから大丈夫！'},
+  {id:'f42',emoji:'💴',title:'日本のお金をドルにかえよう',text:'日本円（¥）はアメリカでそのまま使えないよ。空港などで「ドル（$）」にかえてもらう必要があるんだ。これを「りょうがえ」というよ。だいたい1ドル＝150円くらい（その時によってかわるよ）。'},
+  {id:'f43',emoji:'🧮',title:'ドルのけいさんのしかた',text:'お店で$5のジュースを買うとき、日本円でいくらかな？1ドル＝150円とすると、5×150＝750円！「ドルの数字に150をかける」とだいたいの日本円がわかるよ。たかいな？やすいな？かんがえてみよう！'},
+  {id:'f44',emoji:'✈️',title:'飛行機に乗るまでの流れ',text:'空港についたら①チェックイン（荷物をあずける）②手荷物けんさ（ボディチェック）③出国審査（パスポートをみせる）の順番に進むよ。スタッフのおねえさんが一緒にいてくれるから安心してね！'},
+  {id:'f45',emoji:'🔍',title:'手荷物けんさってなに？',text:'飛行機に乗る前に、荷物の中身をきかいでチェックするよ。これは危ないものを飛行機に持ちこまないためなんだ。ベルトや上着はいったんはずして、かばんといっしょにトレイに入れてね。'},
+  {id:'f46',emoji:'🚫',title:'飛行機に持ちこめないもの',text:'液体のもの（飲み物・ジュースなど）は100ml以下の小さいいれものでないと持ちこめないよ。はさみやナイフもNG。知らずに持っていくとけんさで取られてしまうことも。出発前に確認しようね！'},
+  {id:'f47',emoji:'🛂',title:'にゅうこく審査ってなに？',text:'アメリカに着いたら「にゅうこく審査」があるよ。「なんのためにアメリカに来たの？」「どのくらいいるの？」などを聞かれるんだ。正直に答えればだいじょうぶ！パスポートをわたして待てばOK。'},
+  {id:'f48',emoji:'💬',title:'にゅうこく審査で聞かれること',text:'よく聞かれるのは"What is the purpose of your visit?"（何のために来たの？）と"How long will you stay?"（どのくらいいるの？）。"I\'m visiting my aunt."（おばの家に来ました）と答えてみよう！'},
+];
+
+// ===== STATE =====
+let state = JSON.parse(localStorage.getItem('chicago-v5') || '{}');
+if (!state.prep)    state.prep    = {};
+if (!state.videos)  state.videos  = {};  // { videoId: { done: bool, quiz: [bool,bool] } }
+if (!state.culture) state.culture = {};
+function save() { localStorage.setItem('chicago-v5', JSON.stringify(state)); }
+
+// ===== HELPERS =====
+function getDayIndex() {
+  return Math.max(0, Math.floor((new Date() - APP_START) / 86400000));
+}
+function todayJP() {
+  const d = new Date();
+  return `${d.getMonth()+1}月${d.getDate()}日`;
+}
+
+// ===== COUNTDOWN =====
+function updateCountdown() {
+  const diff = DEPARTURE - new Date();
+  const days = Math.ceil(diff / 86400000);
+  const el = document.getElementById('daysNum'), lb = document.getElementById('daysLabel');
+  if (days <= 0) {
+    el.innerHTML = '🎉<span class="days-unit">しゅっぱつ</span>';
+    lb.textContent = 'いってらっしゃい！大ぼうけんスタート！';
+  } else if (days === 1) {
+    el.innerHTML = '1<span class="days-unit">にち</span>';
+    lb.textContent = 'あしたはいよいよしゅっぱつ！！！';
+  } else {
+    el.innerHTML = days + '<span class="days-unit">にち</span>';
+    lb.textContent = 'で大ぼうけんスタート！';
+  }
+}
+
+// ===== PROGRESS =====
+function calcProgress() {
+  const now = new Date();
+  const timePct = Math.min(1, Math.max(0, (now - APP_START) / (DEPARTURE - APP_START)));
+  const prepDone = PREP_TASKS.filter(t => state.prep[t.id]).length;
+  const prepPct  = prepDone / PREP_TASKS.length;
+  const vidsDone = ALL_VIDEOS.filter(v => state.videos[v.videoId]?.done).length;
+  const vidsPct  = vidsDone / ALL_VIDEOS.length;
+  const culDone  = CULTURE_FACTS.filter(f => state.culture[f.id]).length;
+  const culPct   = culDone / CULTURE_FACTS.length;
+
+  // time 20% + prep 30% + videos 35% + culture 15%
+  const overall = timePct*0.20 + prepPct*0.30 + vidsPct*0.35 + culPct*0.15;
+  return {
+    overall: Math.round(overall*100), time: Math.round(timePct*100),
+    prep: Math.round(prepPct*100), vids: Math.round(vidsPct*100),
+    cul: Math.round(culPct*100),
+    prepDone, vidsDone, culDone, t: overall,
+  };
+}
+
+const MESSAGES = [
+  [0,10,'🌱 さあ、大ぼうけんのじゅんびをはじめよう！'],
+  [10,25,'✨ いいかんじ！少しずつ近づいているよ！'],
+  [25,45,'🚀 どんどんじゅんびがすすんでるね！すごい！'],
+  [45,65,'🌈 もう半分いじょう！シカゴが見えてきた！'],
+  [65,80,'🎉 かなり近づいてきた！わくわく！'],
+  [80,95,'🌟 もうすぐだ！じゅんびはバッチリ！'],
+  [95,101,'🏆 じゅんびかんりょう！大ぼうけんのゆうしゃ！'],
+];
+function getMessage(p) { for(const[lo,hi,m] of MESSAGES) if(p>=lo&&p<hi) return m; return '🌟 じゅんびかんりょう！'; }
+
+function updateOverall() {
+  const p = calcProgress();
+  document.getElementById('overallPct').textContent = p.overall;
+  document.getElementById('overallBar').style.width = p.overall + '%';
+  document.getElementById('overallMsg').textContent = getMessage(p.overall);
+  document.getElementById('c1').textContent = p.time;
+  document.getElementById('c2').textContent = p.prep;
+  document.getElementById('c3').textContent = p.vids;
+  document.getElementById('c4').textContent = p.cul;
+
+  document.getElementById('prep-done-label').textContent = p.prepDone + ' / ' + PREP_TASKS.length + ' クリア';
+  document.getElementById('prep-badge').textContent = p.prep + '%';
+  document.getElementById('prep-bar').style.width = p.prep + '%';
+
+  document.getElementById('english-done-label').textContent = p.vidsDone + ' / ' + ALL_VIDEOS.length + ' クリア';
+  document.getElementById('english-badge').textContent = p.vids + '%';
+  document.getElementById('english-bar').style.width = p.vids + '%';
+
+  document.getElementById('culture-done-label').textContent = p.culDone + ' / ' + CULTURE_FACTS.length + ' 学んだ';
+  document.getElementById('culture-badge').textContent = p.cul + '%';
+  document.getElementById('culture-bar').style.width = p.cul + '%';
+
+  updatePlane(p.t);
+  updateDistanceLabel(p.overall);
+}
+
+// ===== PLANE =====
+function bezier(t,p0,p1,p2){return (1-t)*(1-t)*p0+2*(1-t)*t*p1+t*t*p2}
+function arcLen(tEnd){let l=0,px=bezier(0,9,50,91),py=bezier(0,78,12,78);for(let i=1;i<=50;i++){const ti=(i/50)*tEnd,x=bezier(ti,9,50,91),y=bezier(ti,78,12,78);l+=Math.sqrt((x-px)**2+(y-py)**2);px=x;py=y}return l}
+
+function updatePlane(progress) {
+  const t = Math.min(0.97, Math.max(0.03, progress));
+  const c = document.querySelector('.sky-container');
+  const px = (bezier(t,9,50,91)/100)*c.offsetWidth;
+  const py = (bezier(t,78,12,78)/100)*c.offsetHeight;
+  const pl = document.getElementById('planeEmoji');
+  pl.style.left = px+'px'; pl.style.top = py+'px';
+  const total = arcLen(1), done = arcLen(t);
+  document.getElementById('flightDone').setAttribute('stroke-dasharray', done+','+(total-done+10));
+}
+
+function updateDistanceLabel(pct) {
+  const el = document.getElementById('distanceLabel');
+  if(pct<5)       el.textContent='🗾 日本にいるよ。さあしゅっぱつのじゅんびをしよう！';
+  else if(pct<25) el.textContent='🌊 たいへいようをとんでいるよ！どんどんすすもう！';
+  else if(pct<50) el.textContent='🌏 ハワイあたりをつうかちゅう！おりかえし地点が見えてきた！';
+  else if(pct<75) el.textContent='🌁 アメリカ本土が近づいてきた！あともう少し！';
+  else if(pct<90) el.textContent='🏙️ シカゴが見えてきた！もうすぐとうちゃくだよ！';
+  else            el.textContent='🎉 シカゴにとうちゃく！大ぼうけんのじゅんびはバッチリ！';
+}
+
+// ===== RENDER PREP =====
+function renderPrep() {
+  const body = document.getElementById('prep-body');
+  body.innerHTML = '<div class="prep-hint">👆 できたらタップしてチェックしよう！</div>';
+  PREP_TASKS.forEach(task => {
+    const done = !!state.prep[task.id];
+    const div = document.createElement('div');
+    div.className = 'task-item' + (done?' done':'');
+    div.innerHTML = `<div class="cb">${done?'✓':''}</div><div class="task-emoji">${task.emoji}</div><div class="task-text">${task.text}</div>`;
+    div.addEventListener('click', () => {
+      state.prep[task.id] = !state.prep[task.id];
+      save(); if(state.prep[task.id]) burst(div);
+      renderPrep(); updateOverall();
+    });
+    body.appendChild(div);
+  });
+}
+
+// ===== RENDER ENGLISH =====
+function renderEnglish() {
+  const body = document.getElementById('english-body');
+  body.innerHTML = '';
+  const dayIdx = getDayIndex();
+  const todayLabel = `${todayJP()}（${dayIdx+1}日め）`;
+
+  const vid = ALL_VIDEOS[dayIdx % ALL_VIDEOS.length];
+  const vs  = state.videos[vid.videoId] || { done: false, quiz: [] };
+  const allCorrect = vid.quiz.every((_, i) => vs.quiz[i]);
+
+  const card = document.createElement('div');
+  card.className = 'daily-card lesson-card';
+
+  let quizHTML = '';
+  vid.quiz.forEach((q, qi) => {
+    const correct = vs.quiz[qi];
+    quizHTML += `
+      <div class="quiz-block" id="qblock-${qi}">
+        <div class="quiz-num">もんだい ${qi+1}</div>
+        <div class="quiz-q">${q.q}</div>
+        <div class="quiz-choices">
+          ${q.choices.map((c,ci) => `
+            <button class="quiz-choice${correct && ci===q.answer?' correct':''}${correct && ci!==q.answer?' locked':''}"
+              data-qi="${qi}" data-ci="${ci}" ${correct?'disabled':''}>
+              ${c}
+            </button>`).join('')}
+        </div>
+        <button class="quiz-confirm-btn${correct?' hide':''}" id="qconfirm-${qi}" data-qi="${qi}" ${correct?'style="display:none"':''}>✋ こたえる！</button>
+        <div class="quiz-feedback ${correct?'ok show':''}" id="qfb-${qi}">
+          ${correct ? '🌟 せいかい！ ' + q.ok : ''}
+        </div>
+      </div>
+      ${qi < vid.quiz.length-1 ? '<hr class="quiz-divider">' : ''}`;
+  });
+
+  card.innerHTML = `
+    <div class="daily-card-header">
+      <div class="daily-badge badge-lesson">🎬 今日のえいごどうが</div>
+      <div class="daily-date">${todayLabel}</div>
+    </div>
+    <div class="video-tag">📺 ${vid.channel}</div>
+    <div class="video-title" style="margin-top:6px">${vid.title}</div>
+    <div class="video-wrap">
+      <iframe src="https://www.youtube.com/embed/${vid.videoId}" allowfullscreen loading="lazy"></iframe>
+    </div>
+    <div class="quiz-intro">📺 どうがを見たら、といてみよう！</div>
+    ${quizHTML}
+    <button class="done-btn lesson-btn${vs.done?' done-state':''}${!allCorrect&&!vs.done?' locked':''}"
+      id="vid-done-btn" ${!allCorrect&&!vs.done?'disabled':''}>
+      ${vs.done ? '✓ クリア！すごい！' : allCorrect ? '🌟 クリア！' : 'もんだいをといてからクリアしよう！'}
+    </button>
+    <div class="done-msg">あしたはあたらしいどうがとどくよ 💌</div>
+  `;
+
+  // 選択→確定の2ステップ
+  card.querySelectorAll('.quiz-choice').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const qi = parseInt(btn.dataset.qi);
+      if (vs.quiz[qi]) return; // すでに正解済み
+      // 同じ問題の選択状態をリセット
+      card.querySelectorAll(`[data-qi="${qi}"]`).forEach(b => b.classList.remove('selected'));
+      btn.classList.add('selected');
+      // 確定ボタンをアクティブにする
+      const confirmBtn = card.querySelector(`#qconfirm-${qi}`);
+      confirmBtn.classList.add('active');
+      confirmBtn.dataset.selected = btn.dataset.ci;
+    });
+  });
+
+  card.querySelectorAll('.quiz-confirm-btn').forEach(confirmBtn => {
+    confirmBtn.addEventListener('click', () => {
+      const qi = parseInt(confirmBtn.dataset.qi);
+      const ci = parseInt(confirmBtn.dataset.selected);
+      if (isNaN(ci)) return;
+      const q = vid.quiz[qi];
+      if (!state.videos[vid.videoId]) state.videos[vid.videoId] = { done: false, quiz: [] };
+      const s = state.videos[vid.videoId];
+      const fb = card.querySelector(`#qfb-${qi}`);
+
+      // 全ボタンをロック
+      card.querySelectorAll(`[data-qi="${qi}"]`).forEach(b => { b.disabled = true; });
+      confirmBtn.style.display = 'none';
+
+      if (ci === q.answer) {
+        s.quiz[qi] = true; save();
+        card.querySelector(`[data-qi="${qi}"][data-ci="${ci}"]`).classList.add('correct');
+        card.querySelectorAll(`[data-qi="${qi}"]`).forEach(b => { if(!b.classList.contains('correct')) b.classList.add('locked'); });
+        fb.className = 'quiz-feedback ok show';
+        fb.textContent = '🌟 せいかい！ ' + q.ok;
+        const nowAllCorrect = vid.quiz.every((_,i) => s.quiz[i]);
+        if (nowAllCorrect) {
+          const doneBtn = card.querySelector('#vid-done-btn');
+          doneBtn.disabled = false;
+          doneBtn.className = 'done-btn lesson-btn';
+          doneBtn.textContent = '🌟 クリア！';
+          burst(card);
+        }
+      } else {
+        card.querySelector(`[data-qi="${qi}"][data-ci="${ci}"]`).classList.add('wrong');
+        fb.className = 'quiz-feedback ng show';
+        fb.textContent = '❌ ざんねん！ ' + q.ng;
+        // 少し待ってからもう一度えらべるようにする
+        setTimeout(() => {
+          card.querySelectorAll(`[data-qi="${qi}"]`).forEach(b => {
+            b.disabled = false;
+            b.classList.remove('wrong', 'selected');
+          });
+          confirmBtn.style.display = '';
+          confirmBtn.classList.remove('active');
+          confirmBtn.dataset.selected = '';
+          fb.className = 'quiz-feedback';
+        }, 1500);
+      }
+    });
+  });
+
+  card.querySelector('#vid-done-btn').addEventListener('click', () => {
+    if (!state.videos[vid.videoId]) state.videos[vid.videoId] = { done: false, quiz: [] };
+    state.videos[vid.videoId].done = true;
+    save(); burst(card); renderEnglish(); updateOverall();
+  });
+  body.appendChild(card);
+
+  // ── Past completed ──
+  const pastVids = ALL_VIDEOS.filter(v => state.videos[v.videoId]?.done && v.videoId !== vid.videoId);
+  if (pastVids.length > 0) {
+    const toggle = document.createElement('div');
+    toggle.className = 'past-toggle';
+    toggle.textContent = `▼ これまでクリアしたどうが（${pastVids.length}こ）`;
+    const pastList = document.createElement('div');
+    pastList.className = 'past-list';
+    toggle.addEventListener('click', () => {
+      pastList.classList.toggle('open');
+      toggle.textContent = pastList.classList.contains('open')
+        ? `▲ かくす`
+        : `▼ これまでクリアしたどうが（${pastVids.length}こ）`;
+    });
+    pastVids.forEach(v => {
+      const div = document.createElement('div');
+      div.className = 'task-item done';
+      div.innerHTML = `<div class="cb">✓</div><div class="task-emoji">📺</div><div class="task-text">${v.title}</div>`;
+      pastList.appendChild(div);
+    });
+    body.appendChild(toggle);
+    body.appendChild(pastList);
+  }
+}
+
+// ===== RENDER CULTURE =====
+function renderCulture() {
+  const body = document.getElementById('culture-body');
+  body.innerHTML = '';
+  const dayIdx = getDayIndex();
+  const todayFact = CULTURE_FACTS[dayIdx % CULTURE_FACTS.length];
+  const learned   = !!state.culture[todayFact.id];
+
+  const dc = document.createElement('div');
+  dc.className = 'daily-card culture-card';
+  dc.innerHTML = `
+    <div class="daily-card-header">
+      <div class="daily-badge badge-culture">🌍 今日のアメリカ知しき</div>
+      <div class="daily-date">${todayJP()}（${dayIdx+1}日め）</div>
+    </div>
+    <div style="font-size:3em;text-align:center;margin:8px 0">${todayFact.emoji}</div>
+    <div style="font-size:0.95em;font-weight:900;color:#6a5a3a;text-align:center;margin-bottom:10px">${todayFact.title}</div>
+    <div style="font-size:0.84em;color:#7a8a9a;line-height:1.7;background:#fffff8;border-radius:12px;padding:12px;margin-bottom:14px">${todayFact.text}</div>
+    <button class="done-btn${learned?' done-state':''}" style="${learned?'background:linear-gradient(90deg,#84fab0,#08aeea)':'background:linear-gradient(90deg,#f9d423,#74b9ff)'};color:white;box-shadow:0 4px 14px rgba(200,200,100,0.3)" id="cul-done-btn">
+      ${learned ? '✓ おぼえた！すごい！' : '⭐ おぼえた！'}
+    </button>
+    <div class="done-msg">あしたはあたらしいトピックがとどくよ 💌</div>
+  `;
+  dc.querySelector('#cul-done-btn').addEventListener('click', () => {
+    state.culture[todayFact.id] = !state.culture[todayFact.id];
+    save(); if(state.culture[todayFact.id]) burst(dc);
+    renderCulture(); updateOverall();
+  });
+  body.appendChild(dc);
+
+  const learnedItems = CULTURE_FACTS.filter(f => state.culture[f.id] && f.id !== todayFact.id);
+  if (learnedItems.length > 0) {
+    const toggle = document.createElement('div');
+    toggle.className = 'past-toggle';
+    toggle.textContent = `▼ これまでおぼえたこと（${learnedItems.length}こ）`;
+    const pastList = document.createElement('div');
+    pastList.className = 'past-list';
+    toggle.addEventListener('click', () => {
+      pastList.classList.toggle('open');
+      toggle.textContent = pastList.classList.contains('open')
+        ? '▲ かくす'
+        : `▼ これまでおぼえたこと（${learnedItems.length}こ）`;
+    });
+    learnedItems.forEach(fact => {
+      const div = document.createElement('div');
+      div.className = 'fact-item learned';
+      div.innerHTML = `<div class="fact-emoji">${fact.emoji}</div><div class="fact-body"><div class="fact-title">${fact.title}</div><div class="fact-badge">⭐ おぼえた！</div></div>`;
+      div.addEventListener('click', () => { state.culture[fact.id]=false; save(); renderCulture(); updateOverall(); });
+      pastList.appendChild(div);
+    });
+    body.appendChild(toggle);
+    body.appendChild(pastList);
+  }
+}
+
+// ===== TOGGLE SECTION =====
+function toggleSection(id) { document.getElementById(id).classList.toggle('open'); }
+
+// ===== BURST =====
+const EMOJIS = ['⭐','✨','🌸','💫','🎀','💙','🩷','🌟','🎊'];
+function burst(el) {
+  const r=el.getBoundingClientRect(), cx=r.left+r.width/2, cy=r.top+r.height/2;
+  for(let i=0;i<8;i++){
+    const s=document.createElement('span'); s.className='burst';
+    s.textContent=EMOJIS[Math.floor(Math.random()*EMOJIS.length)];
+    const a=(i/8)*2*Math.PI, d=60+Math.random()*40;
+    s.style.setProperty('--dx',Math.cos(a)*d+'px');
+    s.style.setProperty('--dy',Math.sin(a)*d+'px');
+    s.style.left=cx+'px'; s.style.top=cy+'px';
+    document.body.appendChild(s); setTimeout(()=>s.remove(),900);
+  }
+}
+
+// ===== SPARKLES =====
+function setupSparkles() {
+  const bg=document.getElementById('sparkleBg');
+  const items=['✨','⭐','🌸','💫','🩷','💙','🌟'];
+  for(let i=0;i<18;i++){
+    const sp=document.createElement('div'); sp.className='sp';
+    sp.textContent=items[Math.floor(Math.random()*items.length)];
+    sp.style.left=Math.random()*100+'vw'; sp.style.top=Math.random()*100+'vh';
+    sp.style.animationDuration=(2+Math.random()*3)+'s';
+    sp.style.animationDelay=Math.random()*3+'s';
+    sp.style.fontSize=(10+Math.random()*12)+'px';
+    bg.appendChild(sp);
+  }
+}
+
+// ===== INIT =====
+window.addEventListener('load', () => {
+  setupSparkles(); updateCountdown();
+  renderPrep(); renderEnglish(); renderCulture(); updateOverall();
+  requestAnimationFrame(()=>requestAnimationFrame(()=>updatePlane(calcProgress().t)));
+  setInterval(updateCountdown, 60000);
+  updateChicagoTime();
+  setInterval(updateChicagoTime, 1000);
+});
+window.addEventListener('resize', ()=>updatePlane(calcProgress().t));
+
+// ===== シカゴ現地時間 =====
+function updateChicagoTime() {
+  const now = new Date();
+  // シカゴ夏時間（CDT）= UTC-5。5時間分をUTCから引く
+  const chicago = new Date(now.getTime() - 5 * 60 * 60000);
+  const h = chicago.getUTCHours();
+  const m = String(chicago.getUTCMinutes()).padStart(2, '0');
+  const ampm = h < 12 ? '午前' : '午後';
+  const h12 = h % 12 || 12;
+  const days = ['日', '月', '火', '水', '木', '金', '土'];
+  const dateStr = `${chicago.getUTCMonth()+1}月${chicago.getUTCDate()}日（${days[chicago.getUTCDay()]}）`;
+  document.getElementById('chicago-time').textContent = `${ampm} ${h12}:${m}`;
+  document.getElementById('chicago-date').textContent = dateStr;
+  const jph = now.getHours();
+  const jpm = String(now.getMinutes()).padStart(2, '0');
+  document.getElementById('chicago-diff').textContent = `今、日本は ${jph}:${jpm} ／ 日本より14時間おくれているよ`;
+}
+
+// ===== AI 質問ボックス =====
+document.getElementById('ai-send-btn').addEventListener('click', () => {
+  const q = document.getElementById('ai-input').value.trim();
+  if (!q) return;
+  const context = 'あなたは小学3年生の女の子（ちはなちゃん）のたびの先生です。ちはなちゃんは2026年7月20日から8月20日までアメリカのシカゴに一人でたびをします。シカゴにすんでいるおばさんの家にとまります。えいごの勉強やシカゴのこと、アメリカのぶんかについて、やさしいひらがな・カタカナでこたえてください。かん字は小学2年生までに習ったものだけ使ってください。';
+  const url = 'https://claude.ai/new?q=' + encodeURIComponent(context + '\n\nちはなちゃんからの質問：' + q);
+  window.open(url, '_blank');
+});
+document.getElementById('ai-input').addEventListener('keydown', e => {
+  if (e.key === 'Enter') document.getElementById('ai-send-btn').click();
+});
+</script>
+</body>
+</html>
