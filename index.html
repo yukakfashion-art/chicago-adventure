@@ -310,6 +310,36 @@ body {
     <div class="section-body" id="prep-body"></div>
   </div>
 
+  <!-- もちものチェックリスト -->
+  <div class="section-card" id="sec-items">
+    <div class="section-head head-prep" onclick="toggleSection('sec-items')">
+      <div class="sec-icon">🧳</div>
+      <div class="sec-info">
+        <div class="sec-title">もちものチェックリスト</div>
+        <div class="sec-done" id="items-done-label">0 / 24 チェック</div>
+      </div>
+      <div class="sec-badge" id="items-badge">0%</div>
+      <div class="sec-arrow">▼</div>
+    </div>
+    <div class="mini-bar"><div class="mini-bar-fill fill-prep" id="items-bar" style="width:0%"></div></div>
+    <div class="section-body" id="items-body"></div>
+  </div>
+
+  <!-- おみやげリスト -->
+  <div class="section-card" id="sec-omiyage">
+    <div class="section-head head-prep" onclick="toggleSection('sec-omiyage')">
+      <div class="sec-icon">🎁</div>
+      <div class="sec-info">
+        <div class="sec-title">おみやげリスト</div>
+        <div class="sec-done" id="omiyage-done-label">0 / 18 チェック</div>
+      </div>
+      <div class="sec-badge" id="omiyage-badge">0%</div>
+      <div class="sec-arrow">▼</div>
+    </div>
+    <div class="mini-bar"><div class="mini-bar-fill fill-prep" id="omiyage-bar" style="width:0%"></div></div>
+    <div class="section-body" id="omiyage-body"></div>
+  </div>
+
   <!-- えいごチャレンジ -->
   <div class="section-card open" id="sec-english">
     <div class="section-head head-english" onclick="toggleSection('sec-english')">
@@ -362,16 +392,67 @@ const DEPARTURE = new Date('2026-07-20T13:00:00+09:00');
 const APP_START  = new Date('2026-06-05T00:00:00+09:00');
 
 const PREP_TASKS = [
-  {id:'p1', emoji:'🛂', text:'パスポートのゆうこうきげんをかくにんした'},
-  {id:'p2', emoji:'🧳', text:'スーツケースを出して、大きさをかくにんした'},
-  {id:'p3', emoji:'👗', text:'1かげつぶんのきがえをそろえた'},
-  {id:'p4', emoji:'💊', text:'くすり・きゅうきゅうセット・虫よけをじゅんびした'},
-  {id:'p5', emoji:'📱', text:'おばさんの電話ばんごうをあんき（またはメモ）した'},
-  {id:'p6', emoji:'🆘', text:'こまったときに電話できるれんしゅうをした'},
-  {id:'p7', emoji:'🎒', text:'ひこうきのなかでやること（本・ゲーム）をきめた'},
-  {id:'p8', emoji:'🎁', text:'日本からもっていくおみやげをきめた'},
-  {id:'p9', emoji:'💵', text:'アメリカのお金（ドル）のことを知った'},
-  {id:'p10',emoji:'⛺', text:'サマーキャンプにもっていくものリストを作った'},
+  {id:'p1',  emoji:'📱', text:'スマホをばあばからかりる'},
+  {id:'p2',  emoji:'📡', text:'eSIMのじゅんびをする'},
+  {id:'p3',  emoji:'🏷️', text:'AirTagがひつようかかんがえる'},
+  {id:'p4',  emoji:'🏥', text:'ほけんに入る'},
+  {id:'p5',  emoji:'🛂', text:'ESTAをかくにんする'},
+  {id:'p6',  emoji:'💊', text:'びょういんでくすりをもらいにいく'},
+  {id:'p7',  emoji:'📞', text:'ひろみちゃんのれんらくさきをおぼえる'},
+  {id:'p8',  emoji:'☎️', text:'電話のれんしゅうをする'},
+  {id:'p9',  emoji:'💬', text:'LINEのれんしゅうをする'},
+  {id:'p10', emoji:'🎁', text:'日本からもっていくおみやげをきめる'},
+  {id:'p11', emoji:'🗣️', text:'おみやげについて英語でせつめいできるようにれんしゅうする'},
+  {id:'p12', emoji:'📧', text:'サマーキャンプにあいさつのメールをおくる'},
+  {id:'p13', emoji:'✈️', text:'にゅうこくのしつもんにこたえるれんしゅうをする'},
+];
+
+const ITEMS_TASKS = [
+  {id:'i1',  emoji:'🎮', text:'ひこうきの中でひつような遊びどうぐ'},
+  {id:'i2',  emoji:'👗', text:'きがえ（1かげつぶん）'},
+  {id:'i3',  emoji:'🛂', text:'パスポート'},
+  {id:'i4',  emoji:'💵', text:'お金（円・ドル）'},
+  {id:'i5',  emoji:'🔭', text:'小さなぼうえんきょう'},
+  {id:'i6',  emoji:'📓', text:'絵日記ちょう'},
+  {id:'i7',  emoji:'🍶', text:'水とう'},
+  {id:'i8',  emoji:'🥢', text:'子ども用おはし'},
+  {id:'i9',  emoji:'🎁', text:'日本のおみやげ'},
+  {id:'i10', emoji:'💆', text:'くし'},
+  {id:'i11', emoji:'🪢', text:'ヘアゴム'},
+  {id:'i12', emoji:'🩴', text:'子ども用スリッパ'},
+  {id:'i13', emoji:'📱', text:'スマホ'},
+  {id:'i14', emoji:'🩴', text:'ビーサン'},
+  {id:'i15', emoji:'🪴', text:'クロックス'},
+  {id:'i16', emoji:'👟', text:'スニーカー'},
+  {id:'i17', emoji:'🩱', text:'水着'},
+  {id:'i18', emoji:'🕶️', text:'サングラス'},
+  {id:'i19', emoji:'🎩', text:'ぼうし'},
+  {id:'i20', emoji:'🔧', text:'きょうせいきぐとねじまわし'},
+  {id:'i21', emoji:'🧴', text:'ほしつざい'},
+  {id:'i22', emoji:'💊', text:'くすり'},
+  {id:'i23', emoji:'🪥', text:'はブラシ'},
+  {id:'i24', emoji:'✏️', text:'えんぴつ・ふでばこ'},
+];
+
+const OMIYAGE_TASKS = [
+  {id:'o1',  emoji:'🫕', text:'ふじホーロー'},
+  {id:'o2',  emoji:'🗑️', text:'生ゴミキャニスター'},
+  {id:'o3',  emoji:'🌿', text:'手まき用のり'},
+  {id:'o4',  emoji:'🐟', text:'かつおぶし'},
+  {id:'o5',  emoji:'🌿', text:'ひじき'},
+  {id:'o6',  emoji:'🥕', text:'きり干しだいこん'},
+  {id:'o7',  emoji:'🌾', text:'いりごま・すりごま（白と黒 両方）'},
+  {id:'o8',  emoji:'🌊', text:'わかめ'},
+  {id:'o9',  emoji:'🫙', text:'高きゅう塩こんぶ'},
+  {id:'o10', emoji:'🍜', text:'フリーズドライみそしる'},
+  {id:'o11', emoji:'🧹', text:'せんめんボウルクリーナー'},
+  {id:'o12', emoji:'🧺', text:'台どころ用ふきん'},
+  {id:'o13', emoji:'🧹', text:'ファイバーミニクロス（ニトリ）'},
+  {id:'o14', emoji:'🏷️', text:'しつの良いハンドタオル（あおみどり色）'},
+  {id:'o15', emoji:'🌿', text:'高きゅうこんぶ'},
+  {id:'o16', emoji:'🐟', text:'にぼし'},
+  {id:'o17', emoji:'🦐', text:'ほし桜エビ'},
+  {id:'o18', emoji:'🍳', text:'かいとうできるまな板'},
 ];
 
 // えいごどうが（全チャンネルまとめて・毎日1本ローテーション）
@@ -382,18 +463,18 @@ const ALL_VIDEOS = [
     channel: 'あいうえおフォニックス',
     quiz: [
       {
-        q: '「日やけした」を英語でなんという？',
-        choices: ['got sunburned 🌞', 'got wet 🌧️', 'got cold ❄️'],
+        q: 'この動画で「日やけした」という意味の英語として出てきたのはどれ？',
+        choices: ['got sunburned 🌞', 'got suntanned 🏖️', 'got overheated 🔥'],
         answer: 0,
-        ok: '「got sunburned」だよ！sun=おひさま、burned=やけた！',
-        ng: '正かいは「got sunburned」！sun=おひさま、burned=やけた！',
+        ok: '「got sunburned」！sun＝おひさま、burned＝やけた。シカゴの夏も日やけに注意！',
+        ng: '正かいは「got sunburned」！動画でこのフレーズを使っていたよ！',
       },
       {
-        q: '「あせをかく」を英語でなんという？',
-        choices: ['sweat 💦', 'cry 😢', 'sneeze 🤧'],
+        q: 'この動画で「あせをかく」の英語として出てきた言葉は？',
+        choices: ['sweat 💦', 'shiver 🥶', 'sneeze 🤧'],
         answer: 0,
-        ok: '「sweat」！「I\'m sweating!」って言ってみよう！',
-        ng: '正かいは「sweat」！あせはsweatだよ！',
+        ok: '「sweat」！「I\'m sweating so much!」みたいに使えるよ！',
+        ng: '正かいは「sweat」！shiver＝ふるえる、sneeze＝くしゃみ、sweat＝あせをかくだよ！',
       },
     ],
   },
@@ -403,18 +484,18 @@ const ALL_VIDEOS = [
     channel: 'バイリンガール Bilingirl Chika',
     quiz: [
       {
-        q: 'カフェで注文するとき、店員さんにまず何を聞かれた？',
-        choices: ['名まえ（"Can I get your name?"）📛', '年れい 🎂', 'すきな食べもの 🍽️'],
+        q: 'この動画でカフェの店員さんに最初に聞かれたことは何だった？',
+        choices: ['名まえ（"Can I get your name?"）📛', '何を飲むか 🥤', 'お金を先にはらうかどうか 💳'],
         answer: 0,
-        ok: 'そう！アメリカのカフェでは注文のときに名まえを聞かれることが多いよ！',
-        ng: '正かいは「名まえ」！"Can I get your name?"って聞かれるよ！',
+        ok: 'アメリカのカフェでは注文のときに名まえを聞かれる！できあがったら名まえで呼んでもらえるんだよ！',
+        ng: '正かいは「名まえ」！"Can I get your name?"って聞かれたね！',
       },
       {
-        q: 'Bilingirl がカフェで注文したのはどれ？',
-        choices: ['アボカドトーストとバナナブレッド 🥑🍌', 'ピザとサラダ 🍕🥗', 'バーガーとフライ 🍔🍟'],
+        q: 'Bilingirl がカフェで注文したのはどんなメニューだった？',
+        choices: ['アボカドトーストとバナナブレッド 🥑🍌', 'ピザとサラダ 🍕🥗', 'バーガーとコーヒー ☕🍔'],
         answer: 0,
-        ok: 'アボカドトーストとバナナブレッド！ニューヨークのカフェらしいメニューだね！',
-        ng: '正かいはアボカドトーストとバナナブレッド！おしゃれなNYカフェだね！',
+        ok: 'アボカドトーストとバナナブレッド！NYのカフェらしいおしゃれなメニューだね！',
+        ng: '正かいはアボカドトーストとバナナブレッド！動画をもう一度見てみよう！',
       },
     ],
   },
@@ -424,18 +505,18 @@ const ALL_VIDEOS = [
     channel: 'あいうえおフォニックス',
     quiz: [
       {
-        q: '「コンセント」はアメリカ英語でなんていう？',
-        choices: ['outlet 🔌', 'consent 🤝', 'connect 🔗'],
+        q: 'この動画で「コンセント」の正しい英語として紹介されたのはどれ？',
+        choices: ['outlet（アウトレット）🔌', 'consent（コンセント）🤝', 'connector（コネクター）🔗'],
         answer: 0,
-        ok: 'そう！アメリカでは「outlet（アウトレット）」！日本の「コンセント」は通じないよ！',
-        ng: '正かいは「outlet」！「コンセント」は英語じゃないんだよ！',
+        ok: '"outlet"が正しい英語！「コンセント」はアメリカでは通じない和製英語なんだよ！',
+        ng: '正かいは"outlet"！動画でそう紹介していたよ。"consent"は「同意」という意味でちがうよ！',
       },
       {
-        q: '「ホチキス」は英語でなんていう？',
-        choices: ['stapler 📎', 'hotchkiss 🤔', 'binder 📁'],
+        q: 'この動画で「ホチキス」の正しい英語として出てきたのはどれ？',
+        choices: ['stapler（ステープラー）📎', 'hotchkiss（ホチキス）🤔', 'binder（バインダー）📁'],
         answer: 0,
-        ok: '「stapler（ステープラー）」！ホチキスはもともとメーカーの名まえなんだよ！',
-        ng: '正かいは「stapler」！ホチキスは英語じゃなかったんだね！',
+        ok: '"stapler"が正しい英語！ホチキスはもともとメーカーの名まえが広まったんだよ！',
+        ng: '正かいは"stapler"！動画でそう教えていたよ！',
       },
     ],
   },
@@ -445,18 +526,18 @@ const ALL_VIDEOS = [
     channel: 'バイリンガール Bilingirl Chika',
     quiz: [
       {
-        q: 'アイスを注文するとき「I\'ll do the vanilla.」の「I\'ll do」はどういう意味？',
-        choices: ['「〜にします」🍦', '「〜を作ります」🛠️', '「〜が大好き」❤️'],
+        q: 'この動画でアイスを注文するとき「〜にします」として使っていた表現は？',
+        choices: ['I\'ll do the ～ 🍦', 'I want the ～ 😠', 'Give me the ～ 🤚'],
         answer: 0,
-        ok: '「I\'ll do ～」は「〜にします」！お店でさらっと使えるかっこいい表現だよ！',
-        ng: '正かいは「〜にします」！「I\'ll do the vanilla」＝「バニラにします」だよ！',
+        ok: '"I\'ll do the vanilla."みたいに使うよ！さらっと言えるかっこいい注文フレーズ！',
+        ng: '正かいは"I\'ll do the ～"！動画でこのフレーズを使っていたよ！',
       },
       {
-        q: '「How big is the portion?」はなにを聞いている？',
-        choices: ['「りょう（量）はどのくらい？」🍨', '「いくらですか？」💰', '「何味がある？」🎨'],
+        q: 'この動画で「りょうはどのくらい？」と聞くために使っていたフレーズは？',
+        choices: ['How big is the portion? 🍨', 'How much is it? 💰', 'How many scoops? 🍦'],
         answer: 0,
-        ok: '「portion（ポーション）」は量のこと！アメリカはりょうが多いから大事な質問だね！',
-        ng: '正かいは「量はどのくらい？」！portionは量・ひとり分のことだよ！',
+        ok: '"How big is the portion?"！アメリカはりょうが多いから、動画でもこのフレーズを使っていたね！',
+        ng: '正かいは"How big is the portion?"！portionはひとり分の量のことだよ！',
       },
     ],
   },
@@ -466,18 +547,18 @@ const ALL_VIDEOS = [
     channel: 'あいうえおフォニックス',
     quiz: [
       {
-        q: 'ものがちらばっているとき「ばらばら」に一番近い英語はどれ？',
-        choices: ['scattered ✨', 'together 🤝', 'organized 📋'],
+        q: 'この動画で「ばらばら」の英語として紹介されたのはどれ？',
+        choices: ['scattered 🍂', 'separated 🚧', 'shuffled 🃏'],
         answer: 0,
-        ok: '「scattered」だよ！葉っぱがちらばってるのも「scattered leaves」！',
-        ng: '正かいは「scattered」！ちらばっているイメージだよ！',
+        ok: '"scattered"！葉っぱがちらばっているのも"scattered leaves"！動画で教えていたね！',
+        ng: '正かいは"scattered"！動画でこの言葉を使って「ばらばら」を説明していたよ！',
       },
       {
-        q: 'パズルのピースがばらばらのとき、英語でいうと？',
-        choices: ['scattered pieces 🧩', 'one piece 🔷', 'clean pieces ✅'],
+        q: 'この動画で"scattered"を使って説明していた例として出てきたのはどれ？',
+        choices: ['葉っぱがちらばっている様子 🍂', 'きれいにならんだ本 📚', 'まざり合った色えのぐ 🎨'],
         answer: 0,
-        ok: '「scattered pieces」！scatteredをおぼえてね！',
-        ng: '正かいは「scattered pieces」！',
+        ok: '葉っぱがあちこちにちらばっているのが"scattered"のイメージ！パズルのピースなんかも同じだよ！',
+        ng: '正かいは「葉っぱがちらばっている様子」！動画でそのイメージで説明していたね！',
       },
     ],
   },
@@ -487,18 +568,18 @@ const ALL_VIDEOS = [
     channel: 'バイリンガール Bilingirl Chika',
     quiz: [
       {
-        q: 'スタバで「お名前は？」と聞かれることがある。なんのため？',
-        choices: ['カップに名前を書くため ✍️', '会員とうろくのため 📋', 'よやくのため 📅'],
+        q: 'この動画でスタバのカップに何が書かれると説明していた？',
+        choices: ['お客さんの名まえ ✍️', '注文した飲み物の種類だけ ☕', '注文した時刻 ⏰'],
         answer: 0,
-        ok: 'できあがったら名前をよばれるよ！名前をはっきり言おう！',
-        ng: '正かいは「カップに名前を書くため」！呼ばれたら取りに行こう！',
+        ok: 'カップに名まえを書いて、できあがったら呼んでもらえる！動画でそう説明していたね！',
+        ng: '正かいは「お客さんの名まえ」！呼ばれたら取りに行こう！',
       },
       {
-        q: '「What size would you like?」と聞かれたら？',
-        choices: ['「サイズはどれにしますか？」📏', '「何個ですか？」🔢', '「温かいですか？冷たいですか？」🌡️'],
+        q: 'この動画でサイズを聞かれたとき使っていた答え方は？',
+        choices: ['Small, please! / Medium, please! 📏', 'The big one! 👊', 'Normal size. 😐'],
         answer: 0,
-        ok: 'Small・Medium・Largeかな？「Small, please!」と言ってみよう！',
-        ng: '正かいは「サイズはどれにしますか？」！Small, pleaseと言おう！',
+        ok: '"Small, please!"や"Medium, please!"！動画でこんなふうに答えていたよ！',
+        ng: '正かいは"Small, please!"や"Medium, please!"！スタバでそのまま使えるフレーズだよ！',
       },
     ],
   },
@@ -508,18 +589,18 @@ const ALL_VIDEOS = [
     channel: 'あいうえおフォニックス',
     quiz: [
       {
-        q: '「わあ、それかっこいい！」と言いたいとき、どちらをつかう？',
-        choices: ["That's cool! 😎", "It's cool! ✨", 'どちらもおなじ'],
+        q: 'この動画で目の前のかっこいいものを見て「すごい！」と言うとき、どちらを使うと教えていた？',
+        choices: ['That\'s cool! 😎', 'It\'s cool! ✨', 'どちらでもおなじ 🤷'],
         answer: 0,
-        ok: '「That\'s cool!」目の前のものをさして言うときはThat！',
-        ng: '正かいは「That\'s cool!」！目の前のものをさすときはThat！',
+        ok: '"That\'s cool!"！目の前のものをさして言うときはThat！動画でそう教えていたね！',
+        ng: '正かいは"That\'s cool!"！目の前のものをさすときはThat、と動画で説明していたよ！',
       },
       {
-        q: 'てんきを言うとき、どちらをつかう？',
-        choices: ["It's sunny! ☀️", "That's sunny! 🌤️", 'どちらでもOK'],
+        q: 'この動画でてんきを言うとき、どちらを使うと教えていた？',
+        choices: ['It\'s sunny! ☀️', 'That\'s sunny! 🌤️', 'どちらでもOK 🤷'],
         answer: 0,
-        ok: '「It\'s sunny!」てんきはいつも「It\'s ___!」を使うよ！',
-        ng: '正かいは「It\'s sunny!」！てんきはいつもItだよ！',
+        ok: '"It\'s sunny!"！てんきはいつも"It\'s ___!"を使うよ。動画でも"It\'s ___!"と教えていたね！',
+        ng: '正かいは"It\'s sunny!"！てんきを言うときはItを使う、と動画で説明していたよ！',
       },
     ],
   },
@@ -529,18 +610,18 @@ const ALL_VIDEOS = [
     channel: 'Easy English',
     quiz: [
       {
-        q: '「How many people are in your family?」は何を聞いている？',
-        choices: ['「家族は何人ですか？」👨‍👩‍👧', '「家族の名前は？」📛', '「家族はどこにいますか？」🗺️'],
+        q: 'この動画で「家族は何人ですか？」を英語でなんと聞いていた？',
+        choices: ['How many people are in your family? 👨‍👩‍👧', 'How big is your family? 🏠', 'Who is in your family? 👋'],
         answer: 0,
-        ok: '「My family has 3 people.」のように答えてみよう！',
-        ng: '正かいは「家族は何人ですか？」！「3 people」のように答えよう！',
+        ok: '"How many people are in your family?"！"My family has __ people."と答えてみよう！',
+        ng: '正かいは"How many people are in your family?"！動画でこのフレーズを使っていたよ！',
       },
       {
-        q: '「sibling（シブリング）」ってどんな意味？',
-        choices: ['きょうだい（お兄さん・お姉さん・弟・妹）👫', '友だち 👋', 'いとこ 👦'],
+        q: 'この動画で「きょうだい（お兄さん・お姉さん・弟・妹をまとめた言葉）」を英語でなんと言っていた？',
+        choices: ['sibling（シブリング）👫', 'relative（レラティブ）👪', 'cousin（カズン）👦'],
         answer: 0,
-        ok: '「sibling」はきょうだい全員をまとめた言葉だよ！',
-        ng: '正かいは「きょうだい」！「I have one sibling.」って言ってみよう！',
+        ok: '"sibling"はきょうだい全員をまとめた言葉！"I have one sibling."＝きょうだいが一人いるよ！',
+        ng: '正かいは"sibling"！動画でそう教えていたよ。relative＝親せき、cousin＝いとこだよ！',
       },
     ],
   },
@@ -550,18 +631,18 @@ const ALL_VIDEOS = [
     channel: 'あいうえおフォニックス',
     quiz: [
       {
-        q: '「y」から始まることばはどれ？',
-        choices: ['yellow 🟡', 'cat 🐱', 'sun ☀️'],
+        q: 'この動画で「y」の音（語頭）の例として出てきた言葉はどれ？',
+        choices: ['yellow 🟡', 'eye 👁️', 'sky ☁️'],
         answer: 0,
-        ok: '「yellow」！Yの音は「イ」のおとだよ！',
-        ng: '正かいは「yellow」！y-e-l-l-o-w！',
+        ok: '"yellow"！語頭のyは「イ」の音。y-e-l-l-o-w！動画でこの例が出てきたね！',
+        ng: '正かいは"yellow"！eyeやskyのyは語末でちがう音だよ！',
       },
       {
-        q: '「they（かれら）」の「ey」はどんなおと？',
-        choices: ['エイ（ay）🎵', 'イー（ee）🎵', 'アイ（eye）🎵'],
+        q: 'この動画で「they」の「ey」はどんな音だと教えていた？',
+        choices: ['「エイ」の音（theyは「ゼイ」）🎵', '「イー」の音（theyは「ジィー」）🎵', '「アイ」の音（theyは「ザイ」）👁️'],
         answer: 0,
-        ok: '「エイ」のおと！「they」は「ゼイ」とよむよ！',
-        ng: '正かいは「エイ」！theyは「ゼイ」とよむよ！',
+        ok: '「エイ」の音！だから"they"は「ゼイ」！"hey"も「ヘイ」と読むよ！動画でそう説明していたね！',
+        ng: '正かいは「エイ」の音！"they"は「ゼイ」と読むよ！動画でそう教えていたね！',
       },
     ],
   },
@@ -571,18 +652,18 @@ const ALL_VIDEOS = [
     channel: 'バイリンガール英会話 | Bilingirl Chika',
     quiz: [
       {
-        q: 'ドライブスルーでちゅうもんするとき、どうやってつたえる？',
-        choices: ['まどから話しかけてちゅうもんする 🚗', 'お店の中に入って注文する 🏠', '電話でちゅうもんする 📞'],
+        q: 'この動画で4才の女の子はドライブスルーでどうやって注文していた？',
+        choices: ['車のまどからマイクに話しかけて注文した 🚗', 'お店の中に入って注文した 🏠', 'スマホアプリで注文した 📱'],
         answer: 0,
-        ok: 'そう！車のまどからマイクに話しかけるんだよ！',
-        ng: '正かいは、まどから話しかけてちゅうもん！ドライブスルーは車からでないよ！',
+        ok: '車のまどからマイクに話しかけて注文！それがドライブスルーのやり方だよ！',
+        ng: '正かいは「まどからマイクに話しかけて注文」！ドライブスルーは車からおりないよ！',
       },
       {
-        q: '「To go, please!」はどういうときに言う？',
-        choices: ['お持ち帰りにするとき 🥡', 'お店で食べるとき 🍽️', 'おかわりをするとき 🔁'],
+        q: 'この動画で「持ち帰り」を意味するフレーズとして出てきたのはどれ？',
+        choices: ['To go, please! 🥡', 'For here, please! 🍽️', 'Take away! 🚶'],
         answer: 0,
-        ok: '「to go」＝もち帰り！「for here」＝お店で食べる！',
-        ng: '正かいは「お持ち帰り」のとき！「for here」がお店で食べるだよ！',
+        ok: '"To go"＝持ち帰り！"For here"＝お店で食べる！動画でそう説明していたね！',
+        ng: '正かいは"To go, please!"！動画でそのフレーズを使っていたよ！',
       },
     ],
   },
@@ -592,18 +673,18 @@ const ALL_VIDEOS = [
     channel: 'バイリンガール英会話 | Bilingirl Chika',
     quiz: [
       {
-        q: 'アメリカのクラフト体験で一番大切にされていることはなに？',
-        choices: ['自分のアイデアを自由にひょうげんすること 🎨', '先生のまねをすること 👩‍🏫', 'だれよりも速く作ること ⏱️'],
+        q: 'この動画のクラフト体験で、いちばん大切にされていたことは何だった？',
+        choices: ['自分のアイデアで自由に作ること 🎨', '先生のサンプルとまったく同じに作ること 👩‍🏫', 'だれよりも速く完成させること ⏱️'],
         answer: 0,
-        ok: 'そう！アメリカでは「自分らしさ」をひょうげんすることがとっても大切！',
-        ng: '正かいは「自分のアイデアを自由にひょうげん」！まねや速さより、自分らしさが大事！',
+        ok: 'そう！アメリカのクラフト体験では「自分らしさ」をひょうげんすることがいちばん大切！',
+        ng: '正かいは「自分のアイデアで自由に作ること」！動画でそれが大切だと伝わってきたね！',
       },
       {
-        q: 'クラフトで何かを作るとき、英語でなんとさそう？',
-        choices: ["Let's make something! 🛠️", "Let's eat something! 🍴", "Let's sleep! 😴"],
+        q: 'この動画で「一緒に何か作ろう！」と声をかけるとき使っていたフレーズは？',
+        choices: ['Let\'s make something! 🛠️', 'Let\'s buy something! 🛍️', 'Let\'s eat something! 🍴'],
         answer: 0,
-        ok: '「Let\'s make ～!」は「～を作ろう！」という意味だよ！',
-        ng: '正かいは「Let\'s make something!」！makeは「作る」だよ！',
+        ok: '"Let\'s make something!"！make＝作る、something＝何か。動画で使っていたフレーズだよ！',
+        ng: '正かいは"Let\'s make something!"！makeは「作る」という意味だよ！',
       },
     ],
   },
@@ -613,18 +694,18 @@ const ALL_VIDEOS = [
     channel: 'バイリンガール英会話 | Bilingirl Chika',
     quiz: [
       {
-        q: '料理の手じゅんを英語で説明するとき「まず」はなんという？',
-        choices: ['First 🥇', 'Finally 🏁', 'Maybe 🤔'],
+        q: 'この動画で料理の手じゅんを説明するとき「まず」として使っていた英語は？',
+        choices: ['First 🥇', 'Finally 🏁', 'Also 📝'],
         answer: 0,
-        ok: '「First（まず）」→「Next（つぎに）」→「Finally（さいごに）」の順だよ！',
-        ng: '正かいは「First」！料理の説明でよく使うことばだよ！',
+        ok: '"First（まず）"→"Next（つぎに）"→"Finally（さいごに）"の順で使うよ！動画でそう説明していたね！',
+        ng: '正かいは"First"！料理の説明の最初に使う言葉だよ！',
       },
       {
-        q: '「いただきます」に近い英語はどれ？',
-        choices: ["Let's eat! 🍽️", "I'm hungry! 😋", 'Thank you! 🙏'],
+        q: 'この動画で「いただきます」に近い英語として出てきたフレーズは？',
+        choices: ['Let\'s eat! 🍽️', 'I\'m hungry! 😋', 'Thank you for cooking! 🙏'],
         answer: 0,
-        ok: '「Let\'s eat!」がいちばん近い！アメリカには「いただきます」という言葉はないんだよ。',
-        ng: '正かいは「Let\'s eat!」！「いただきます」はアメリカにはない文化だよ！',
+        ok: '"Let\'s eat!"がいちばん近い！アメリカには「いただきます」という文化がないんだよ。動画でそう紹介していたね！',
+        ng: '正かいは"Let\'s eat!"！動画でそう紹介していたよ！',
       },
     ],
   },
@@ -634,18 +715,18 @@ const ALL_VIDEOS = [
     channel: 'バイリンガール英会話 | Bilingirl Chika',
     quiz: [
       {
-        q: 'この動画でかぞくがした「なつの夜のたのしいこと」はどれ？',
-        choices: ['アイスを作っておにわで映画をみた 🍨🎬', 'プールでおよいだ 🏊', 'バーベキューをした 🔥'],
+        q: 'この動画でかぞくがやっていた「なつの夜のたのしいこと」は何だった？',
+        choices: ['手作りアイスを作っておにわで映画をみた 🍨🎬', 'プールでおよいだ 🏊', 'バーベキューをした 🔥'],
         answer: 0,
-        ok: 'そう！手作りアイスを作って、おにわでえいがを見たんだよ！すてきな夏の夜だね！',
-        ng: '正かいは「アイスを作っておにわで映画」！おうちでできる夏のたのしみだね！',
+        ok: '手作りアイスを作って、おにわで映画！すてきな夏の夜だね！',
+        ng: '正かいは「手作りアイスとおにわで映画」！動画でそのようすを見せてくれていたよ！',
       },
       {
-        q: 'えいがをみようとさそうとき、英語でなんていう？',
-        choices: ["Let's watch a movie! 🎬", "Let's go to school! 🏫", "Let's wake up! ☀️"],
+        q: 'この動画で映画を見ようとさそうとき使っていたフレーズは？',
+        choices: ['Let\'s watch a movie! 🎬', 'Let\'s go to bed! 😴', 'Let\'s make popcorn! 🍿'],
         answer: 0,
-        ok: '「Let\'s watch a movie!」！watchは「みる」、movieは「えいが」だよ！',
-        ng: '正かいは「Let\'s watch a movie!」！watchは「みる」だよ！',
+        ok: '"Let\'s watch a movie!"！watch＝見る、movie＝えいが。動画でそう言っていたね！',
+        ng: '正かいは"Let\'s watch a movie!"！動画でそのフレーズを使っていたよ！',
       },
     ],
   },
@@ -655,18 +736,18 @@ const ALL_VIDEOS = [
     channel: 'バイリンガール英会話 | Bilingirl Chika',
     quiz: [
       {
-        q: 'お店でこれはいくらですか？と聞くときなんていう？',
-        choices: ['How much is this? 💰', 'What is this? 🤔', 'Where is this? 📍'],
+        q: 'この動画でお店のお値段を聞くとき使っていたフレーズは？',
+        choices: ['How much is this? 💰', 'What is this? 🤔', 'Can I have this? 🙋'],
         answer: 0,
-        ok: '「How much is this?」！お買い物でつかえる大事なフレーズだよ！',
-        ng: '正かいは「How much is this?」！How much＝いくら？だよ！',
+        ok: '"How much is this?"！お買い物でいちばんよく使うフレーズのひとつ！動画でも使っていたね！',
+        ng: '正かいは"How much is this?"！How much＝いくら？動画でそう使っていたよ！',
       },
       {
-        q: 'お店の人に「すみません、ちょっといいですか？」と声をかけるとき、なんという？',
-        choices: ['Excuse me! 🙋', 'I\'m sorry! 😢', 'Help! 🆘'],
+        q: 'この動画でお店の人に声をかけるとき使っていた表現は？',
+        choices: ['Excuse me! 🙋', 'Sorry! 😢', 'Hey! 👋'],
         answer: 0,
-        ok: '「Excuse me!」！話しかけるときはExcuse meを使おう！',
-        ng: '正かいは「Excuse me!」！Sorryはあやまるとき、Excuse meは声をかけるときだよ！',
+        ok: '"Excuse me!"！話しかけるときはExcuse me！動画でそう使っていたね！Sorryはあやまるときだよ！',
+        ng: '正かいは"Excuse me!"！動画でそう声をかけていたよ！',
       },
     ],
   },
@@ -676,18 +757,18 @@ const ALL_VIDEOS = [
     channel: 'バイリンガール英会話 | Bilingirl Chika',
     quiz: [
       {
-        q: 'たんじょうびにうたう歌のさいしょのフレーズはどれ？',
-        choices: ['Happy birthday to you 🎂', 'Twinkle twinkle little star ⭐', 'Old MacDonald had a farm 🐄'],
+        q: 'この動画のたんじょうびパーティーで歌っていた歌のさいしょのフレーズは？',
+        choices: ['Happy birthday to you 🎂', 'Twinkle twinkle little star ⭐', 'If you\'re happy and you know it 👏'],
         answer: 0,
-        ok: '「Happy birthday to you, happy birthday to you...」！歌えるかな？',
-        ng: '正かいは「Happy birthday to you」！たんじょうびパーティーのきほんの歌だよ！',
+        ok: '"Happy birthday to you, happy birthday to you..."！世界中で歌われる誕生日の歌だよ！',
+        ng: '正かいは"Happy birthday to you"！動画でそう歌っていたよ！',
       },
       {
-        q: 'プレゼントをもらったとき、なんと言う？',
-        choices: ['Thank you so much! 🎁', 'I don\'t like it. 😒', 'Can I have more? 🙏'],
+        q: 'この動画でプレゼントをもらったとき言っていたのはどれ？',
+        choices: ['Thank you so much! 🎁', 'I don\'t like it. 😒', 'Can I have another one? 🙏'],
         answer: 0,
-        ok: '「Thank you so much!」！so muchをつけるとより気もちがつたわるよ！',
-        ng: '正かいは「Thank you so much!」！プレゼントをもらったら笑顔でありがとう！',
+        ok: '"Thank you so much!"！so muchがあるとより気もちがつたわるよ！動画でもそう言っていたね！',
+        ng: '正かいは"Thank you so much!"！もらったらえがおで"Thank you so much!"だよ！',
       },
     ],
   },
@@ -697,18 +778,18 @@ const ALL_VIDEOS = [
     channel: 'バイリンガール英会話 | Bilingirl Chika',
     quiz: [
       {
-        q: '朝、なかなか起きない子に「はやく起きて！」というとき、なんという？',
-        choices: ['Wake up! ⏰', 'Go to sleep! 😴', 'Come here! 👋'],
+        q: 'この動画で朝起きない子に「はやく起きて！」と声をかけるとき使っていた英語は？',
+        choices: ['Wake up! ⏰', 'Stand up! 🧍', 'Rise and shine! ✨'],
         answer: 0,
-        ok: '「Wake up!」！wakeは「おきる」、upは「上に」！起き上がれ～！',
-        ng: '正かいは「Wake up!」！朝によく使うことばだよ！',
+        ok: '"Wake up!"！動画でそう言っていたよ！朝によく使うシンプルなフレーズだね！',
+        ng: '正かいは"Wake up!"！動画でそのフレーズを使っていたよ！',
       },
       {
-        q: '朝ごはんのしたくができたとき「ごはんできたよ！」はなんていう？',
-        choices: ['Breakfast is ready! 🍳', 'Time for bed! 🛏️', 'Let\'s go outside! 🌤️'],
+        q: 'この動画で朝ごはんができたとき「ごはんできたよ！」として使っていたフレーズは？',
+        choices: ['Breakfast is ready! 🍳', 'Time to eat! 🍽️', 'The food is done! ✅'],
         answer: 0,
-        ok: '「Breakfast is ready!」！readyは「じゅんびできた」という意味だよ！',
-        ng: '正かいは「Breakfast is ready!」！readyは「じゅんびOK」だよ！',
+        ok: '"Breakfast is ready!"！ready＝じゅんびができた。動画でそう使っていたよ！',
+        ng: '正かいは"Breakfast is ready!"！動画でそのフレーズを使っていたね！',
       },
     ],
   },
@@ -718,18 +799,18 @@ const ALL_VIDEOS = [
     channel: 'バイリンガール英会話 | Bilingirl Chika',
     quiz: [
       {
-        q: 'Five Little Ducksで、こアヒルたちはどこに行ってしまった？',
-        choices: ['山のむこう（over the hill）🏔️', 'うみのそこ 🌊', 'おとなりのおうち 🏠'],
+        q: 'Five Little Ducksで、こアヒルたちは毎回どこに行ってしまった？',
+        choices: ['山のむこう（over the hill and far away）🏔️', 'うみのそこ 🌊', 'おとなりのおうち 🏠'],
         answer: 0,
-        ok: '「over the hill and far away」！山のむこうのずっと遠くに行ってしまったんだね！',
-        ng: '正かいは「山のむこう（over the hill）」！歌のサビのフレーズだよ！',
+        ok: '"over the hill and far away"！山のむこうのずっと遠くに行ってしまったんだね！',
+        ng: '正かいは「山のむこう（over the hill and far away）」！歌のくり返しフレーズだよ！',
       },
       {
-        q: '最後にこアヒルたちをよびもどしたのはだれ？',
+        q: 'さいごにこアヒルたちをよびもどしたのはだれ？',
         choices: ['お母さんアヒル 🦆', 'お父さんアヒル 🦆', '農家のおじさん 👨‍🌾'],
         answer: 0,
-        ok: 'お母さんアヒルが「Quack quack quack!」とよんだら、みんなかえってきたよ！',
-        ng: '正かいはお母さんアヒル！「Quack quack quack!」ってよんだんだよ！',
+        ok: 'お母さんアヒルが"Quack quack quack!"とよんだら、みんなかえってきたよ！',
+        ng: '正かいはお母さんアヒル！"Quack quack quack!"ってよんだんだよ！',
       },
     ],
   },
@@ -739,18 +820,18 @@ const ALL_VIDEOS = [
     channel: 'Bluey - Official Channel',
     quiz: [
       {
-        q: 'ブルーイたちはどこで遊んでいた？',
-        choices: ['小川（クリーク）🏞️', '大きなプール 🏊', 'ショッピングモール 🏬'],
+        q: 'このエピソードでブルーイたちはどこに遊びに行った？',
+        choices: ['小川（creek）🏞️', '大きなプール 🏊', 'ショッピングモール 🏬'],
         answer: 0,
-        ok: 'そう！「creek（クリーク）」は小川のこと！自然の中で遊ぶのって楽しいね！',
-        ng: '正かいは小川（creek）！creeは「小川」という意味だよ！',
+        ok: 'そう！"creek"は小川のこと！自然の中で遊ぶブルーイたちのエピソードだよ！',
+        ng: '正かいは小川（creek）！このエピソードのタイトルにもなってるよ！',
       },
       {
-        q: 'ブルーイのお父さんの名まえは？',
-        choices: ['Bandit 🐕', 'Bob 🐕', 'Barry 🐕'],
+        q: 'ブルーイのお父さんの名まえは何？',
+        choices: ['Bandit 🐕', 'Bob 🐕', 'Buddy 🐕'],
         answer: 0,
-        ok: '「Bandit（バンディット）」！ブルーイのかぞくはみんな個性的な名まえだね！',
-        ng: '正かいは「Bandit」！ブルーイ・バンゴ・バンディット・チリのかぞくだよ！',
+        ok: '"Bandit（バンディット）"！ブルーイのかぞくはブルーイ・バンゴ・バンディット・チリだよ！',
+        ng: '正かいは"Bandit"！ブルーイのお父さんの名まえだよ！',
       },
     ],
   },
@@ -763,15 +844,15 @@ const ALL_VIDEOS = [
         q: 'スポットをさがしていたのはだれ？',
         choices: ['お母さんのサリー 🐶', 'お父さん 🐕', 'おじいちゃん 👴'],
         answer: 0,
-        ok: 'お母さんのサリーがスポットをさがしていたんだよ！',
-        ng: '正かいはお母さんのサリー！スポットはかくれんぼがすきなのかな？',
+        ok: 'お母さんのサリーがスポットをさがしていたよ！スポット～どこにいるの？',
+        ng: '正かいはお母さんのサリー！スポットをさがしてあちこち確かめていたね！',
       },
       {
-        q: 'スポットをさがしてかいだんの下をみたとき、そこにいたのはだれ？',
-        choices: ['クマ 🐻', 'ライオン 🦁', 'さる 🐒'],
+        q: 'かいだんの下を見たとき、中にいたのはだれ？',
+        choices: ['クマ 🐻', 'ライオン 🦁', 'ワニ 🐊'],
         answer: 0,
-        ok: 'クマがいたんだよ！スポットじゃなくてびっくり！',
-        ng: '正かいはクマ！いろんなところにいろんな動物がかくれていたね！',
+        ok: 'クマがいたんだよ！スポットじゃなくてびっくり！いろんな場所にいろんな動物がいたね！',
+        ng: '正かいはクマ！いろんなところにいろんな動物がかくれていたんだよ！',
       },
     ],
   },
@@ -781,18 +862,18 @@ const ALL_VIDEOS = [
     channel: 'Stories with Star',
     quiz: [
       {
-        q: 'Omuがいちにちかけて作ったのはなに？',
-        choices: ['シチュー（stew）🍲', 'ケーキ 🎂', 'ピザ 🍕'],
+        q: 'Omuがいちにちかけて作ったのは何？',
+        choices: ['シチュー（stew）🍲', 'ケーキ 🎂', 'カレー 🍛'],
         answer: 0,
-        ok: 'Omuはおいしいシチュー（stew）を作ったんだよ！いいにおいがしてきそう！',
-        ng: '正かいはシチュー（stew）！ゆっくりじっくり作ったんだよ！',
+        ok: 'Omuはおいしいシチュー（stew）を作ったんだよ！いいにおいがまちまで広がったね！',
+        ng: '正かいはシチュー（stew）！一日かけてじっくり作ったんだよ！',
       },
       {
-        q: 'まちのみんながOmuのシチューを食べにきたあと、シチューはどうなった？',
+        q: 'まちのみんながOmuのシチューを食べたあと、シチューはどうなった？',
         choices: ['ぜんぶなくなってしまった 🥣', 'たくさんのこった 🍲', 'Omuだけが食べた 🙋'],
         answer: 0,
-        ok: 'みんなが食べてシチューはぜんぶなくなった！でもOmuはとても幸せだったよ！',
-        ng: '正かいは「ぜんぶなくなった」！みんなによろこんでもらえてOmuはうれしかったね！',
+        ok: 'みんなが食べてシチューはぜんぶなくなった！でもOmuはとても幸せそうだったね！',
+        ng: '正かいは「ぜんぶなくなった」！みんなに食べてもらえてOmuはうれしかったんだよ！',
       },
     ],
   },
@@ -803,17 +884,17 @@ const ALL_VIDEOS = [
     quiz: [
       {
         q: '主人公のbeanはさいしょ、どんな気もちだった？',
-        choices: ['まわりのcool beanたちをうらやましいと思っていた 😔', 'じぶんがいちばんかっこいいと思っていた 😎', 'なにもかんがえていなかった 😶'],
+        choices: ['まわりのcool beanたちをうらやましいと思っていた 😔', 'じぶんがいちばんかっこいいと思っていた 😎', 'たのしくてずっとわらっていた 😄'],
         answer: 0,
-        ok: 'そう！さいしょはうらやましくて自分がダサいと思っていたんだよ！',
+        ok: 'さいしょはうらやましくて自分がダサいと思っていたんだよ！でも最後には…！',
         ng: '正かいは「うらやましいと思っていた」！さいしょはじしんがなかったんだね！',
       },
       {
-        q: '最後に主人公がやった「本当にcoolなこと」はなに？',
-        choices: ['こまっている人をさりげなくたすけた 🤝', 'ダンスをおどった 💃', 'いちばん速くはしった 🏃'],
+        q: 'さいごに主人公がやった「本当にcoolなこと」は何だった？',
+        choices: ['こまっている人をさりげなくたすけた 🤝', 'ダンスをおどってみんなをわかせた 💃', 'いちばん速くはしってしょうりした 🏃'],
         answer: 0,
-        ok: 'そう！かっこいいことって、じぶんを見せることじゃなくて、だれかをたすけることだったんだね！',
-        ng: '正かいは「こまっている人をたすけた」！本当のcoolさとは何か、気づかせてくれる本だよ！',
+        ok: 'こまっている人をさりげなくたすけたことが「本当のcool」だったんだね！',
+        ng: '正かいは「こまっている人をたすけた」！見た目じゃなくて行動がかっこいいんだよ！',
       },
     ],
   },
@@ -823,18 +904,18 @@ const ALL_VIDEOS = [
     channel: 'MovingStories',
     quiz: [
       {
-        q: '草むらをとおるとき、どんなおとがした？',
+        q: '草むらをとおるとき、どんな音がした？',
         choices: ['Swishy swashy 🌾', 'Splish splosh 💧', 'Squelch squerch 👣'],
         answer: 0,
-        ok: 'そう！草むらは「Swishy swashy」！川は「Splish splosh」、ぬかるみは「Squelch squerch」だよ！',
-        ng: '正かいは「Swishy swashy」！草むらをかき分けるおとだよ！',
+        ok: '草むらは「Swishy swashy」！川は「Splish splosh」、ぬかるみは「Squelch squerch」だよ！',
+        ng: '正かいは「Swishy swashy」！草むらをかき分けるおとだよ！Splish sploshは川のおとだよ！',
       },
       {
         q: 'クマをみつけたとき、家族はどうした？',
-        choices: ['にげて家にかえった 🏠💨', 'クマとともだちになった 🤝', 'クマをつかまえた 🎣'],
+        choices: ['にげて家にかえってベッドにもぐった 🏠💨', 'クマとともだちになった 🤝', 'クマをつかまえてかえった 🎣'],
         answer: 0,
-        ok: 'きてきた道をぜんぶもどって、家にかえってベッドにもぐったんだよ！',
-        ng: '正かいは「にげて家にかえった」！きてきた全部の場所をものすごい速さでもどったんだよ！',
+        ok: 'きてきた道をぜんぶもどって、家にかえってベッドにもぐったんだよ！こわかったね！',
+        ng: '正かいは「にげて家にかえってベッドにもぐった」！きた道を全部もどったんだよ！',
       },
     ],
   },
@@ -845,17 +926,17 @@ const ALL_VIDEOS = [
     quiz: [
       {
         q: 'ねずみはさいしょ、なぜグラファロのことを話した？',
-        choices: ['きつねやフクロウをおいはらうために「こわいともだちがいる」とうそをついた 🦊', 'グラファロとともだちになりたかったから 😊', 'グラファロに食べられないようにおねがいするため 🙏'],
+        choices: ['きつねやフクロウをおいはらうために「こわいともだちがいる」とうそをついた 🦊', 'グラファロとともだちになりたかったから 😊', 'グラファロがみちにいたから紹介した 👋'],
         answer: 0,
-        ok: 'そう！ねずみはグラファロをじぶんで作り上げたうそのともだちにしたんだよ！でも本当にあらわれてびっくり！',
-        ng: '正かいは「うそをついてきつねをおいはらうため」！ところが本当のグラファロがあらわれてびっくり！',
+        ok: 'うそでつくった「こわいともだち」がきつねをおいはらったんだよ！ところが本物のグラファロがあらわれてびっくり！',
+        ng: '正かいは「きつねをおいはらうためにうそをついた」！ところが本物が出てきてびっくり！',
       },
       {
-        q: '最後にグラファロをこわがらせたのはだれ？',
+        q: 'さいごにグラファロをこわがらせたのはだれ？',
         choices: ['ねずみ 🐭', 'フクロウ 🦉', 'きつね 🦊'],
         answer: 0,
-        ok: 'ねずみが「森でいちばんこわいのはじぶんだ」とグラファロに思わせたんだよ！すごい知えだね！',
-        ng: '正かいはねずみ！小さくてもちえをつかえばこわいものだってこわがらせられる！',
+        ok: 'ねずみが「森でいちばんこわいのはじぶんだ」とグラファロに思わせたんだよ！小さくてもちえがあれば勝てる！',
+        ng: '正かいはねずみ！ちえを使ってグラファロさえもこわがらせたんだよ！',
       },
     ],
   },
@@ -866,17 +947,17 @@ const ALL_VIDEOS = [
     quiz: [
       {
         q: 'ステファニーが新しいかみがたにするたびに、クラスのみんなはどうした？',
-        choices: ['ぜんいん同じかみがたをまねした 💇', 'ステファニーのことをわらった 😂', 'だれもきがつかなかった 😐'],
+        choices: ['ぜんいん同じかみがたをまねした 💇', 'ステファニーのことをほめた 👏', 'だれもきがつかなかった 😐'],
         answer: 0,
         ok: 'そう！ステファニーが何をしてもみんなまねするんだよ！それがだんだんこまってきたんだね！',
         ng: '正かいは「まねした」！ステファニーが何をしてもぜんいんまねするんだよ！',
       },
       {
-        q: 'さいごにステファニーはなんと言ってみんなをびっくりさせた？',
+        q: 'さいごにステファニーは何と言ってみんなをびっくりさせた？',
         choices: ['「明日はまるはげにする」と言った 😲', '「学校をやめる」と言った 🏃', '「もうかみがたはかえない」と言った 🙅'],
         answer: 0,
-        ok: 'そしてつぎの日、まるはげにしてきたのはクラスのみんなで、ステファニーはちがうかみがただった！ステファニー最高！',
-        ng: '正かいは「まるはげにする」！そしてまるはげにしてきたのはクラスのみんな…ステファニーは違うかみがただったよ！',
+        ok: 'そしてつぎの日、まるはげにしてきたのはクラスのみんな！ステファニーはちがうかみがただった！さいこう！',
+        ng: '正かいは「まるはげにする」！そしてまるはげになったのはクラスのみんなで、ステファニーはちがうかみがただったよ！',
       },
     ],
   },
@@ -889,15 +970,15 @@ const ALL_VIDEOS = [
         q: 'くまのぼうしをかくしていたのはだれ？',
         choices: ['うさぎ 🐰', 'へび 🐍', 'きつね 🦊'],
         answer: 0,
-        ok: 'うさぎが「しらない」とうそをついていたんだよ！くまが気づいたときはおそかった…',
+        ok: 'うさぎが「しらない」とうそをついていたんだよ！くまがあとから気づいたとき…！',
         ng: '正かいはうさぎ！「ぼうしはみていない」とうそをついていたんだよ！',
       },
       {
-        q: 'くまはどうやってうさぎがぼうしをもっていることに気づいた？',
-        choices: ['「あかくてとがったぼうし」という話を聞いて思い出した 💡', 'うさぎがじはくした 😅', '夢でみた 💤'],
+        q: 'くまはどうやってうさぎがぼうしをもっていると気づいた？',
+        choices: ['うさぎが「あかくてとがったぼうし？しらない」と言ったのを、あとから思い出した 💡', 'べつの動物がおしえてくれた 🐦', '夢でみた 💤'],
         answer: 0,
-        ok: 'うさぎが「あかくてとがったぼうし？しらない」と言ったのに、くまがあとから「あ、それぼくのぼうしだ！」と気づいたんだよ！',
-        ng: '正かいは「話を聞いて思い出した」！うさぎのことばがヒントになったんだよ！',
+        ok: 'うさぎのことばがヒントになったんだよ！「あかくてとがったぼうし？」ってあれぼくのぼうしだ！',
+        ng: '正かいは「うさぎのことばをあとから思い出した」！うさぎのひとことがヒントになったんだよ！',
       },
     ],
   },
@@ -910,15 +991,246 @@ const ALL_VIDEOS = [
         q: 'ピートがなくしたはをわたした「とくべつな存在」はだれ？',
         choices: ['トゥースフェアリー（はのようせい）🧚', 'お母さん 👩', '歯医者さん 🦷'],
         answer: 0,
-        ok: 'そう！アメリカでははがぬけたら「トゥースフェアリー」がやってきてお金やプレゼントをおいていってくれるんだよ！',
+        ok: 'アメリカにはトゥースフェアリーという文化があって、はがぬけたらまくらの下においておくとプレゼントをもらえるんだよ！',
         ng: '正かいは「トゥースフェアリー（はのようせい）」！アメリカのすてきな文化だよ！',
       },
       {
         q: 'ピートははを見つけるためにどこをさがした？',
-        choices: ['教室のあちこち、ランチルーム、グラウンドなど 🏫', 'おうちの中だけ 🏠', 'プールの中 🏊'],
+        choices: ['教室・ランチルーム・グラウンドなど学校のいろんな場所 🏫', 'おうちの中だけ 🏠', 'プールと体いくかん 🏊'],
         answer: 0,
-        ok: 'がっこうのいろんな場所をさがしたんだよ！みんなもいっしょにさがしてくれてたね！',
+        ok: '学校のいろんな場所をさがしたんだよ！みんなもいっしょにさがしてくれてたね！',
         ng: '正かいは「学校のいろんな場所」！教室・ランチルーム・グラウンドをさがしたよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'vEpfByiHEPY',
+    title: '何年生？学校で使う英語 🏫',
+    channel: 'Elementary ESL',
+    quiz: [
+      {
+        q: 'この動画で「何年生ですか？」を英語でなんと聞いていた？',
+        choices: ['What grade are you in? 🏫', 'How old are you? 🎂', 'What class are you in? 📚'],
+        answer: 0,
+        ok: '"What grade are you in?"！アメリカでは学年のことを"grade"というよ！動画でそう教えていたね！',
+        ng: '正かいは"What grade are you in?"！gradeは学年のことだよ！',
+      },
+      {
+        q: 'この動画で「3年生です」を英語でなんと言っていた？',
+        choices: ['I\'m in 3rd grade. 🥉', 'I\'m 3 years old. 🎂', 'I\'m class 3. 📋'],
+        answer: 0,
+        ok: '"I\'m in 3rd grade."！サマーキャンプで聞かれたらこう答えてみよう！',
+        ng: '正かいは"I\'m in 3rd grade."！動画でそう教えていたよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'fmGZ1T3LTjk',
+    title: '学校の最初の日に使う英語フレーズ 🎒',
+    channel: 'Elementary ESL',
+    quiz: [
+      {
+        q: 'この動画で「トイレはどこですか？」を英語でなんと言っていた？',
+        choices: ['Where is the bathroom? 🚻', 'Where is the toilet? 🚽', 'Where can I go? 🚶'],
+        answer: 0,
+        ok: '"Where is the bathroom?"！アメリカでは"bathroom"または"restroom"というよ！動画でそう教えていたね！',
+        ng: '正かいは"Where is the bathroom?"！アメリカでトイレはbathroomというよ！',
+      },
+      {
+        q: 'この動画で「助けてください」をお願いするフレーズは？',
+        choices: ['Can you help me? 🙋', 'Help! 😱', 'I need something. 🤔'],
+        answer: 0,
+        ok: '"Can you help me?"！先生やともだちに困ったとき使えるフレーズ！動画でそう教えていたね！',
+        ng: '正かいは"Can you help me?"！動画でそう教えていたよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'AWY_M41VCeE',
+    title: '学校の文ぼうぐ・教室のたんご 📐',
+    channel: 'Elementary ESL',
+    quiz: [
+      {
+        q: 'この動画で「のり（くっつける道ぐ）」の英語として出てきたのはどれ？',
+        choices: ['glue（グルー）🔵', 'tape（テープ）📦', 'paste（ペースト）🍝'],
+        answer: 0,
+        ok: '"glue"！液体ののりは"glue"、スティックのりは"glue stick"！動画でそう教えていたね！',
+        ng: '正かいは"glue"！動画でそう教えていたよ！',
+      },
+      {
+        q: 'この動画で「ものさし」の英語として出てきたのはどれ？',
+        choices: ['ruler（ルーラー）📏', 'meter（メーター）📐', 'measurer（メジャラー）📏'],
+        answer: 0,
+        ok: '"ruler"！ものさしは英語で"ruler"！動画でそう教えていたね！',
+        ng: '正かいは"ruler"！動画でそう教えていたよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'GQFWg0hafIA',
+    title: 'きもちを英語で歌おう！Share My Emotions 🎵',
+    channel: 'Pinkfong',
+    quiz: [
+      {
+        q: 'この歌で「かなしい」気もちを英語でなんと歌っていた？',
+        choices: ['sad（サッド）😢', 'bad（バッド）😣', 'mad（マッド）😡'],
+        answer: 0,
+        ok: '"sad"！かなしいときは"I\'m sad."！動画の歌でそう歌っていたね！',
+        ng: '正かいは"sad"！かなしいは英語で"sad"だよ！',
+      },
+      {
+        q: 'この歌で「こわい」気もちを英語でなんと歌っていた？',
+        choices: ['scared（スケアード）😱', 'sad（サッド）😢', 'sick（シック）🤒'],
+        answer: 0,
+        ok: '"scared"！こわいときは"I\'m scared."！動画の歌でそう歌っていたね！',
+        ng: '正かいは"scared"！こわいは英語で"scared"だよ！',
+      },
+    ],
+  },
+  {
+    videoId: '0mLFYqDxShE',
+    title: '子どもたちが手作りパスタにちょうせん！🍝',
+    channel: 'KIDS MAKE',
+    quiz: [
+      {
+        q: 'この動画で子どもたちが手作りしていたのは何？',
+        choices: ['パスタ（pasta）🍝', 'ピザ（pizza）🍕', 'パン（bread）🍞'],
+        answer: 0,
+        ok: 'パスタ！小麦こをこねて、のばして、切って作るんだよ！たのしそうだったね！',
+        ng: '正かいはパスタ！動画のタイトルにもあるよ！',
+      },
+      {
+        q: 'この動画でパスタのきじをのばすのに使っていた道ぐは？',
+        choices: ['めん棒（rolling pin）🪵', 'フォーク（fork）🍴', 'ナイフ（knife）🔪'],
+        answer: 0,
+        ok: 'めん棒（rolling pin）！生地をのばすのに使うよ！動画でそう使っていたね！',
+        ng: '正かいはめん棒（rolling pin）！動画でそれを使ってのばしていたよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'ogXMQLFdK4Y',
+    title: '試合に勝つ・負ける・引き分けの英語 ⚽',
+    channel: 'あいうえおフォニックス',
+    quiz: [
+      {
+        q: 'この動画で「チームAがチームBにかった」というとき"win"じゃなくて何を使うと教えていた？',
+        choices: ['beat（ビート）🥊', 'win（ウィン）🏆', 'get（ゲット）✊'],
+        answer: 0,
+        ok: '"Team A beat Team B"！「〇〇を倒した」というときはbeatを使う！動画でそう教えていたね！',
+        ng: '正かいは"beat"！「チームAがチームBにかった」は"Team A beat Team B"！動画でそう教えていたよ！',
+      },
+      {
+        q: 'この動画で「引き分け（どちらも勝ちでも負けでもない）」の英語として出てきたのはどれ？',
+        choices: ['tie（タイ）🤝', 'draw（ドロー）🎨', 'どちらも正しい 🙆'],
+        answer: 2,
+        ok: '"tie"も"draw"も両方「引き分け」！アメリカでは"tie"をよく使うよ！動画でそう教えていたね！',
+        ng: '正かいは「どちらも正しい」！"tie"も"draw"も引き分けの意味だよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'qUeluH0fLNM',
+    title: '文ぼうぐを英語でいえる？ ✏️',
+    channel: 'あいうえおフォニックス',
+    quiz: [
+      {
+        q: 'この動画で「ホッチキス」の正しい英語として教えていたのはどれ？',
+        choices: ['stapler（ステープラー）📎', 'hotchkiss（ホッチキス）🤔', 'clipper（クリッパー）✂️'],
+        answer: 0,
+        ok: '"stapler"！ホッチキスはもとはメーカーの名まえ。動画でそう教えていたね！',
+        ng: '正かいは"stapler"！動画でそう教えていたよ！',
+      },
+      {
+        q: 'この動画で「けしゴム」の英語として出てきたのはどれ？',
+        choices: ['eraser（イレイサー）🩹', 'rubber（ラバー）🟡', 'どちらも正しい 🙆'],
+        answer: 2,
+        ok: '両方とも正しい！アメリカでは"eraser"、イギリスでは"rubber"ということも動画で教えていたね！',
+        ng: '正かいは「両方とも正しい」！"eraser"も"rubber"もけしゴムの英語だよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'ZIOujkAKhhk',
+    title: 'かおのパーツ英語（しわ・ほくろ・にきびなど）😊',
+    channel: 'あいうえおフォニックス',
+    quiz: [
+      {
+        q: 'この動画で「ほくろ」の英語として出てきたのはどれ？',
+        choices: ['mole（モール）🔵', 'freckle（フレックル）🌟', 'dimple（ディンプル）😊'],
+        answer: 0,
+        ok: '"mole"！ほくろは英語で"mole"。動画でそう教えていたね！freckle＝そばかす、dimple＝えくぼだよ！',
+        ng: '正かいは"mole"！動画でそう教えていたよ！freckle＝そばかす、dimple＝えくぼだよ！',
+      },
+      {
+        q: 'この動画で「そばかす」の英語として出てきたのはどれ？',
+        choices: ['freckle（フレックル）🌟', 'wrinkle（リンクル）〰️', 'pimple（ピンプル）😣'],
+        answer: 0,
+        ok: '"freckle"！そばかすは英語で"freckle"。動画でそう教えていたね！',
+        ng: '正かいは"freckle"！wrinkle＝しわ、pimple＝にきびだよ！',
+      },
+    ],
+  },
+  {
+    videoId: 'OEvTAWCMceo',
+    title: '「〜して楽しかった」の英語のいいかた 🎉',
+    channel: 'あいうえおフォニックス',
+    quiz: [
+      {
+        q: 'この動画で「〜して楽しかった」の英語として教えていたのはどれ？',
+        choices: ['I had fun ~ing 🎉', 'I was fun ~ing 😊', 'I did fun ~ing 🏃'],
+        answer: 0,
+        ok: '"I had fun ~ing"！例えば「えいがをみて楽しかった」＝"I had fun watching a movie"！動画でそう教えていたね！',
+        ng: '正かいは"I had fun ~ing"！hadを使うのがポイント！動画でそう教えていたよ！',
+      },
+      {
+        q: 'この動画で「友だちとあそんで楽しかった」を英語にすると？',
+        choices: ['I had fun playing with my friends! 🤝', 'I had fun to play with my friends! ❌', 'I was happy playing with my friends! 😊'],
+        answer: 0,
+        ok: '"I had fun playing with my friends!"！playingとingをつけるのがポイント！動画でそう教えていたね！',
+        ng: '正かいは"I had fun playing with my friends!"！had funのあとはingをつけるよ！',
+      },
+    ],
+  },
+  {
+    videoId: '4RVE0_K39C4',
+    title: 'prefix「un」で反対の言葉を作ろう！ 🔄',
+    channel: 'あいうえおフォニックス',
+    quiz: [
+      {
+        q: 'この動画で「un」をつけると意味が「反対」になると教えていた。「happy（しあわせ）」に「un」をつけると？',
+        choices: ['unhappy（しあわせじゃない）😔', 'unhappy（もっとしあわせ）😄', 'unhappy（ちょうしあわせ）🌟'],
+        answer: 0,
+        ok: '"unhappy"＝しあわせじゃない！"un"をつけると反対の意味になるんだよ！動画でそう教えていたね！',
+        ng: '正かいは「しあわせじゃない」！"un"は反対の意味をつける言葉だよ！',
+      },
+      {
+        q: 'この動画で「lucky（ラッキー）」に「un」をつけると？',
+        choices: ['unlucky（ついていない）🍀', 'unlucky（とてもラッキー）✨', 'unlucky（すごくかっこいい）😎'],
+        answer: 0,
+        ok: '"unlucky"＝ついていない！"un"をつけると反対になる。動画でそう教えていたね！',
+        ng: '正かいは「ついていない」！"un"はNOT（〜じゃない）という意味をつける言葉だよ！',
+      },
+    ],
+  },
+  {
+    videoId: '2y9wZkTdYyM',
+    title: 'だいどころ・料理の英語ボキャブラリー 🍳',
+    channel: 'あいうえおフォニックス',
+    quiz: [
+      {
+        q: 'この動画で「じゃぐち（水が出るところ）」の英語として出てきたのはどれ？',
+        choices: ['faucet（フォーセット）🚰', 'fountain（ファウンテン）⛲', 'filter（フィルター）💧'],
+        answer: 0,
+        ok: '"faucet"！じゃぐちは英語で"faucet"。動画でそう教えていたね！',
+        ng: '正かいは"faucet"！動画でそう教えていたよ！fountain＝ふん水、filter＝こす道ぐだよ！',
+      },
+      {
+        q: 'この動画で「でんしレンジ」の英語として出てきたのはどれ？',
+        choices: ['microwave（マイクロウェーブ）📡', 'electric range（エレクトリックレンジ）🔌', 'heater（ヒーター）🌡️'],
+        answer: 0,
+        ok: '"microwave"！でんしレンジは英語で"microwave"。動画でそう教えていたね！',
+        ng: '正かいは"microwave"！動画でそう教えていたよ！',
       },
     ],
   },
@@ -980,6 +1292,8 @@ let state = JSON.parse(localStorage.getItem('chicago-v5') || '{}');
 if (!state.prep)    state.prep    = {};
 if (!state.videos)  state.videos  = {};  // { videoId: { done: bool, quiz: [bool,bool] } }
 if (!state.culture) state.culture = {};
+if (!state.items)   state.items   = {};
+if (!state.omiyage) state.omiyage = {};
 function save() { localStorage.setItem('chicago-v5', JSON.stringify(state)); }
 
 // ===== HELPERS =====
@@ -1012,8 +1326,14 @@ function updateCountdown() {
 function calcProgress() {
   const now = new Date();
   const timePct = Math.min(1, Math.max(0, (now - APP_START) / (DEPARTURE - APP_START)));
-  const prepDone = PREP_TASKS.filter(t => state.prep[t.id]).length;
-  const prepPct  = prepDone / PREP_TASKS.length;
+
+  const prepDone   = PREP_TASKS.filter(t => state.prep[t.id]).length;
+  const itemsDone  = ITEMS_TASKS.filter(t => state.items[t.id]).length;
+  const omiyageDone = OMIYAGE_TASKS.filter(t => state.omiyage[t.id]).length;
+  const allPrepTotal = PREP_TASKS.length + ITEMS_TASKS.length + OMIYAGE_TASKS.length;
+  const allPrepDone  = prepDone + itemsDone + omiyageDone;
+  const prepPct  = allPrepDone / allPrepTotal;
+
   const vidsDone = ALL_VIDEOS.filter(v => state.videos[v.videoId]?.done).length;
   const vidsPct  = vidsDone / ALL_VIDEOS.length;
   const culDone  = CULTURE_FACTS.filter(f => state.culture[f.id]).length;
@@ -1025,7 +1345,7 @@ function calcProgress() {
     overall: Math.round(overall*100), time: Math.round(timePct*100),
     prep: Math.round(prepPct*100), vids: Math.round(vidsPct*100),
     cul: Math.round(culPct*100),
-    prepDone, vidsDone, culDone, t: overall,
+    prepDone, itemsDone, omiyageDone, vidsDone, culDone, t: overall,
   };
 }
 
@@ -1051,8 +1371,16 @@ function updateOverall() {
   document.getElementById('c4').textContent = p.cul;
 
   document.getElementById('prep-done-label').textContent = p.prepDone + ' / ' + PREP_TASKS.length + ' クリア';
-  document.getElementById('prep-badge').textContent = p.prep + '%';
-  document.getElementById('prep-bar').style.width = p.prep + '%';
+  document.getElementById('prep-badge').textContent = Math.round(p.prepDone/PREP_TASKS.length*100) + '%';
+  document.getElementById('prep-bar').style.width = Math.round(p.prepDone/PREP_TASKS.length*100) + '%';
+
+  document.getElementById('items-done-label').textContent = p.itemsDone + ' / ' + ITEMS_TASKS.length + ' チェック';
+  document.getElementById('items-badge').textContent = Math.round(p.itemsDone/ITEMS_TASKS.length*100) + '%';
+  document.getElementById('items-bar').style.width = Math.round(p.itemsDone/ITEMS_TASKS.length*100) + '%';
+
+  document.getElementById('omiyage-done-label').textContent = p.omiyageDone + ' / ' + OMIYAGE_TASKS.length + ' チェック';
+  document.getElementById('omiyage-badge').textContent = Math.round(p.omiyageDone/OMIYAGE_TASKS.length*100) + '%';
+  document.getElementById('omiyage-bar').style.width = Math.round(p.omiyageDone/OMIYAGE_TASKS.length*100) + '%';
 
   document.getElementById('english-done-label').textContent = p.vidsDone + ' / ' + ALL_VIDEOS.length + ' クリア';
   document.getElementById('english-badge').textContent = p.vids + '%';
@@ -1109,6 +1437,42 @@ function renderPrep() {
   });
 }
 
+// ===== RENDER ITEMS =====
+function renderItems() {
+  const body = document.getElementById('items-body');
+  body.innerHTML = '<div class="prep-hint">👆 かばんに入れたらタップしてチェックしよう！</div>';
+  ITEMS_TASKS.forEach(task => {
+    const done = !!state.items[task.id];
+    const div = document.createElement('div');
+    div.className = 'task-item' + (done?' done':'');
+    div.innerHTML = `<div class="cb">${done?'✓':''}</div><div class="task-emoji">${task.emoji}</div><div class="task-text">${task.text}</div>`;
+    div.addEventListener('click', () => {
+      state.items[task.id] = !state.items[task.id];
+      save(); if(state.items[task.id]) burst(div);
+      renderItems(); updateOverall();
+    });
+    body.appendChild(div);
+  });
+}
+
+// ===== RENDER OMIYAGE =====
+function renderOmiyage() {
+  const body = document.getElementById('omiyage-body');
+  body.innerHTML = '<div class="prep-hint">👆 かったらタップしてチェックしよう！</div>';
+  OMIYAGE_TASKS.forEach(task => {
+    const done = !!state.omiyage[task.id];
+    const div = document.createElement('div');
+    div.className = 'task-item' + (done?' done':'');
+    div.innerHTML = `<div class="cb">${done?'✓':''}</div><div class="task-emoji">${task.emoji}</div><div class="task-text">${task.text}</div>`;
+    div.addEventListener('click', () => {
+      state.omiyage[task.id] = !state.omiyage[task.id];
+      save(); if(state.omiyage[task.id]) burst(div);
+      renderOmiyage(); updateOverall();
+    });
+    body.appendChild(div);
+  });
+}
+
 // ===== RENDER ENGLISH =====
 function renderEnglish() {
   const body = document.getElementById('english-body');
@@ -1116,7 +1480,10 @@ function renderEnglish() {
   const dayIdx = getDayIndex();
   const todayLabel = `${todayJP()}（${dayIdx+1}日め）`;
 
-  const vid = ALL_VIDEOS[dayIdx % ALL_VIDEOS.length];
+  // まだ見ていない動画を優先して選ぶ
+  const unwatched = ALL_VIDEOS.filter(v => !state.videos[v.videoId]?.done);
+  const pool = unwatched.length > 0 ? unwatched : ALL_VIDEOS;
+  const vid = pool[dayIdx % pool.length];
   const vs  = state.videos[vid.videoId] || { done: false, quiz: [] };
   const allCorrect = vid.quiz.every((_, i) => vs.quiz[i]);
 
@@ -1282,8 +1649,9 @@ function renderCulture() {
     <div class="done-msg">あしたはあたらしいトピックがとどくよ 💌</div>
   `;
   dc.querySelector('#cul-done-btn').addEventListener('click', () => {
-    state.culture[todayFact.id] = !state.culture[todayFact.id];
-    save(); if(state.culture[todayFact.id]) burst(dc);
+    if (state.culture[todayFact.id]) return; // すでに覚えた場合は何もしない
+    state.culture[todayFact.id] = true;
+    save(); burst(dc);
     renderCulture(); updateOverall();
   });
   body.appendChild(dc);
@@ -1305,7 +1673,7 @@ function renderCulture() {
       const div = document.createElement('div');
       div.className = 'fact-item learned';
       div.innerHTML = `<div class="fact-emoji">${fact.emoji}</div><div class="fact-body"><div class="fact-title">${fact.title}</div><div class="fact-badge">⭐ おぼえた！</div></div>`;
-      div.addEventListener('click', () => { state.culture[fact.id]=false; save(); renderCulture(); updateOverall(); });
+      // 過去のアイテムはクリックしても変化しない
       pastList.appendChild(div);
     });
     body.appendChild(toggle);
@@ -1349,7 +1717,7 @@ function setupSparkles() {
 // ===== INIT =====
 window.addEventListener('load', () => {
   setupSparkles(); updateCountdown();
-  renderPrep(); renderEnglish(); renderCulture(); updateOverall();
+  renderPrep(); renderItems(); renderOmiyage(); renderEnglish(); renderCulture(); updateOverall();
   requestAnimationFrame(()=>requestAnimationFrame(()=>updatePlane(calcProgress().t)));
   setInterval(updateCountdown, 60000);
   updateChicagoTime();
