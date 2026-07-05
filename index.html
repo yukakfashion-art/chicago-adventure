@@ -1480,10 +1480,16 @@ function renderEnglish() {
   const dayIdx = getDayIndex();
   const todayLabel = `${todayJP()}（${dayIdx+1}日め）`;
 
-  // まだ見ていない動画を優先して選ぶ
-  const unwatched = ALL_VIDEOS.filter(v => !state.videos[v.videoId]?.done);
-  const pool = unwatched.length > 0 ? unwatched : ALL_VIDEOS;
-  const vid = pool[dayIdx % pool.length];
+  // 今日の動画を決める（一度決めたらその日は変わらない）
+  const todayStr = new Date().toDateString();
+  if (!state.todayVideo || state.todayVideoDate !== todayStr) {
+    const unwatched = ALL_VIDEOS.filter(v => !state.videos[v.videoId]?.done);
+    const pool = unwatched.length > 0 ? unwatched : ALL_VIDEOS;
+    state.todayVideo = pool[dayIdx % pool.length].videoId;
+    state.todayVideoDate = todayStr;
+    save();
+  }
+  const vid = ALL_VIDEOS.find(v => v.videoId === state.todayVideo) || ALL_VIDEOS[dayIdx % ALL_VIDEOS.length];
   const vs  = state.videos[vid.videoId] || { done: false, quiz: [] };
   const allCorrect = vid.quiz.every((_, i) => vs.quiz[i]);
 
